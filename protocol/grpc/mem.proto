@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package mem;
+
+service MemoryService {
+  rpc GetActiveInteractionMemory (MemRequest) returns (MemResponse);
+  rpc GetICanMemory (MemRequest) returns (MemResponse);
+  rpc GetAgentAllMemory (MemRequest) returns (MemResponse);
+  rpc GetChildAllMemory (MemRequest) returns (MemResponse);
+  rpc GetRelateMemory (MemRequest) returns (MemResponse);
+}
+
+
+message MemRequest {
+  string child_id = 1;
+  string child_name = 2;
+  optional string agent_id = 3;
+  optional string query =4;
+  optional string intent = 5;
+  optional int32 limit = 6;
+}
+
+message MemResponse {
+  int32 code = 1;           // 状态码: 0=成功, 非0=失败
+  string message = 2;       // 状态信息
+  repeated string data = 3; // 记忆内容列表
+}
+
+
+
+

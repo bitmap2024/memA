@@ -1,0 +1,70 @@
+apiVersion: argoproj.io/v1alpha1
+kind: CronWorkflow
+metadata:
+  name: memory-offline-extract-cron
+  namespace: argo
+spec:
+  schedule: "0 * * * *"
+  timezone: "Asia/Shanghai"
+  concurrencyPolicy: "Forbid"
+  startingDeadlineSeconds: 0
+  workflowSpec:
+    entrypoint: main
+    imagePullSecrets:
+      - name: benepal-image-bj
+    templates:
+      - name: main
+        container:
+          image: registry-vpc.cn-beijing.aliyuncs.com/benepal/memory-offline-cron:latest
+          imagePullPolicy: IfNotPresent
+          command: ["/bin/bash", "-c"]
+          args:
+            - |
+              cd /app/src && python -m services.offline_extract_job \
+                --time-range-hours "${MEMORY_OFFLINE_HOUR_RANGE}" \
+                --chunk-tokens "${MEMORY_EXTRACT_CHUNK_TOKENS}" \
+                --compress-rate "${MEMORY_EXTRACT_COMPRESS_RATE}" \
+                --max-workers "${MEMORY_EXTRACT_MAX_WORKERS}" \
+                --batch-size "${MEMORY_EXTRACT_BATCH_SIZE}"
+          resources:
+            requests:
+              memory: "2Gi"
+              cpu: "1"
+            limits:
+              memory: "8Gi"
+              cpu: "4"
+          env:
+            - name: WHALE_HOST
+              value: "http://whale.benepal-prod:80"
+            - name: QDRANT_URL
+              value: "http://qdrant.benepal-prod:6333"
+            - name: QDRANT_COLLECTION
+              value: "light_memory_rag"
+            - name: EMBEDDING_HOST
+              value: "embedding-headless.benepal-prod"
+            - name: EMBEDDING_PORT
+              value: "80"
+            - name: LLM_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: memory-llm-secret
+                  key: api-key
+            - name: LLM_BASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: memory-llm-secret
+                  key: base-url
+            - name: LLM_MODEL
+              value: "deepseek-chat"
+            - name: MEMORY_OFFLINE_HOUR_RANGE
+              value: "12"
+            - name: MEMORY_EXTRACT_CHUNK_TOKENS
+              value: "2048"
+            - name: MEMORY_EXTRACT_COMPRESS_RATE
+              value: "0.5"
+            - name: MEMORY_EXTRACT_MAX_WORKERS
+              value: "4"
+            - name: MEMORY_EXTRACT_BATCH_SIZE
+              value: "10"
+            - name: PRE_COMPRESSOR_MODEL_PATH
+              value: "/app/models/llmlingua-2-bert-base-multilingual-cased-meetingbank"

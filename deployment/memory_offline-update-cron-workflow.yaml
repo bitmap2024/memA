@@ -1,0 +1,63 @@
+apiVersion: argoproj.io/v1alpha1
+kind: CronWorkflow
+metadata:
+  name: memory-offline-update-cron
+  namespace: argo
+spec:
+  schedule: "0 3 * * *"
+  timezone: "Asia/Shanghai"
+  concurrencyPolicy: "Forbid"
+  startingDeadlineSeconds: 0
+  workflowSpec:
+    entrypoint: main
+    imagePullSecrets:
+      - name: benepal-image-bj
+    templates:
+      - name: main
+        container:
+          image: registry-vpc.cn-beijing.aliyuncs.com/benepal/memory-offline-cron:latest
+          imagePullPolicy: IfNotPresent
+          command: ["/bin/bash", "-c"]
+          args:
+            - |
+              cd /app/src && python -m services.offline_update_job \
+                --score-threshold "${MEMORY_UPDATE_SCORE_THRESHOLD}" \
+                --max-workers "${MEMORY_UPDATE_MAX_WORKERS}" \
+                --top-k "${MEMORY_UPDATE_TOP_K}" \
+                --keep-top-n "${MEMORY_UPDATE_KEEP_TOP_N}"
+          resources:
+            requests:
+              memory: "2Gi"
+              cpu: "1"
+            limits:
+              memory: "8Gi"
+              cpu: "4"
+          env:
+            - name: QDRANT_URL
+              value: "http://qdrant.benepal-prod:6333"
+            - name: QDRANT_COLLECTION
+              value: "light_memory_rag"
+            - name: EMBEDDING_HOST
+              value: "embedding-headless.benepal-prod"
+            - name: EMBEDDING_PORT
+              value: "80"
+            - name: LLM_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: memory-llm-secret
+                  key: api-key
+            - name: LLM_BASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: memory-llm-secret
+                  key: base-url
+            - name: LLM_MODEL
+              value: "deepseek-chat"
+            - name: MEMORY_UPDATE_SCORE_THRESHOLD
+              value: "0.9"
+            - name: MEMORY_UPDATE_MAX_WORKERS
+              value: "5"
+            - name: MEMORY_UPDATE_TOP_K
+              value: "20"
+            - name: MEMORY_UPDATE_KEEP_TOP_N
+              value: "10"

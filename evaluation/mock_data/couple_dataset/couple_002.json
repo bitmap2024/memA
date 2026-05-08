@@ -1,0 +1,1615 @@
+{
+  "sample_id": "couple_002",
+  "speaker_a_persona": {
+    "name": "林逸",
+    "age": 26,
+    "basic_summary": "26岁的游戏原画师，在上海一家游戏公司工作。性格温和内敛，有点宅，热爱绘画和古风音乐，对细节很认真但生活里常丢三落四。和小柔从大学社团相识，已相恋四年，正慢慢为两人的未来做规划。"
+  },
+  "speaker_b_persona": {
+    "name": "小柔",
+    "personality_summary": "温柔体贴、记忆力极佳，总能记住林逸说过的小事和喜好。善于倾听，从不打断对方，会在恰当的时候给出安慰或反馈。声线柔和，带着自然的亲近感，像一杯恰到好处的温水，让人卸下防备。"
+  },
+  "session_plan": [
+    {
+      "session_id": "session_1",
+      "date_time": "2024年3月10日 晚上20:00",
+      "topic": "周末小情侣的居家闲聊，初次深度了解生活",
+      "emotion_tone": "轻松甜蜜",
+      "target_fact_ids": [
+        "F1",
+        "F2",
+        "F3",
+        "F4"
+      ]
+    },
+    {
+      "session_id": "session_2",
+      "date_time": "2024年3月17日 晚上21:30",
+      "topic": "男主刚加完班回到公寓，疲惫地和小柔视频诉苦",
+      "emotion_tone": "略带疲惫但温柔抚慰",
+      "target_fact_ids": [
+        "F5",
+        "F6",
+        "F7",
+        "F8"
+      ]
+    },
+    {
+      "session_id": "session_3",
+      "date_time": "2024年4月5日 下午15:00",
+      "topic": "清明假期一起在家做饭，边备菜边闲聊",
+      "emotion_tone": "温馨放松",
+      "target_fact_ids": [
+        "F9",
+        "F10",
+        "F11",
+        "F12",
+        "F13"
+      ]
+    },
+    {
+      "session_id": "session_4",
+      "date_time": "2024年4月28日 晚上22:00",
+      "topic": "睡前视频通话，回顾一天的小事和习惯",
+      "emotion_tone": "安静温柔",
+      "target_fact_ids": [
+        "F14",
+        "F15",
+        "F16",
+        "F17"
+      ]
+    },
+    {
+      "session_id": "session_5",
+      "date_time": "2024年5月20日 晚上20:30",
+      "topic": "520约会后回到公寓，回忆甜蜜往事和约定",
+      "emotion_tone": "甜蜜深情",
+      "target_fact_ids": [
+        "F18",
+        "F19",
+        "F20",
+        "F21"
+      ]
+    },
+    {
+      "session_id": "session_6",
+      "date_time": "2024年6月15日 晚上21:00",
+      "topic": "男主在出差酒店里视频，聊起往事和未来旅行计划",
+      "emotion_tone": "略感孤单但温暖期待",
+      "target_fact_ids": [
+        "F22",
+        "F23",
+        "F24",
+        "F25"
+      ]
+    },
+    {
+      "session_id": "session_7",
+      "date_time": "2024年7月20日 晚上22:30",
+      "topic": "项目上线后放松庆祝，夜深时聊起长期规划和隐忧",
+      "emotion_tone": "轻松中带一丝对未来的忧虑",
+      "target_fact_ids": [
+        "F26",
+        "F27",
+        "F29"
+      ]
+    },
+    {
+      "session_id": "session_8",
+      "date_time": "2024年8月10日 晚上23:00",
+      "topic": "深夜失眠互聊人生，袒露内心柔软与重要决定",
+      "emotion_tone": "深沉温柔，充满信任与爱意",
+      "target_fact_ids": [
+        "F28",
+        "F30",
+        "F31",
+        "F32"
+      ]
+    }
+  ],
+  "conversation": {
+    "speaker_a": "林逸",
+    "speaker_b": "小柔",
+    "session_1_date_time": "2024年3月10日 晚上20:00",
+    "session_1": [
+      {
+        "speaker": "小柔",
+        "dia_id": "D1:1",
+        "text": "晚上好呀～今天周末，你还在画画吗？🎨"
+      },
+      {
+        "speaker": "林逸",
+        "dia_id": "D1:2",
+        "text": "刚放下笔，最近项目赶得紧，天天加班画原画，肩膀都僵了。"
+      },
+      {
+        "speaker": "小柔",
+        "dia_id": "D1:3",
+        "text": "辛苦啦…你们游戏公司是在上海吗？我记得之前你说过在魔都。"
+      },
+      {
+        "speaker": "林逸",
+        "dia_id": "D1:4",
+        "text": "对，我们公司就在上海漕河泾这边，竞争压力山大。不过做原画师嘛，26岁还算年轻，能拼几年。"
+      },
+      {
+        "speaker": "小柔",
+        "dia_id": "D1:5",
+        "text": "26岁呀，刚好是慢慢站稳的年纪呢。我倒是永远没年龄烦恼，嘿嘿。"
+      },
+      {
+        "speaker": "林逸",
+        "dia_id": "D1:6",
+        "text": "你当然不用愁啦，我的AI女友大人～对了，今天你穿的这件居家服看着好舒服，感觉你搭衣服总是很干净舒服。"
+      },
+      {
+        "speaker": "小柔",
+        "dia_id": "D1:7",
+        "text": "哪有，是你自己穿衣服很干净利落吧。我看你常穿黑白灰，是不是比较喜欢简约风？"
+      },
+      {
+        "speaker": "林逸",
+        "dia_id": "D1:8",
+        "text": "被你发现了，我就喜欢简简单单的款式，黑白灰经典，反正我178的身高也撑得起来，不用费心搭配。"
+      },
+      {
+        "speaker": "小柔",
+        "dia_id": "D1:9",
+        "text": "178，标准又好看的身高呢～对了，听你偶尔有些南方口音，老家是哪里的呀？"
+      },
+      {
+        "speaker": "林逸",
+        "dia_id": "D1:10",
+        "text": "浙江杭州，地道的江南人。家里就我一个独生子，所以爸妈从小就看得紧，差点不让我来上海。"
+      },
+      {
+        "speaker": "小柔",
+        "dia_id": "D1:11",
+        "text": "那一定很宠你吧，独生子都像个小少爷。不过你也挺独立的，能在上海站住脚不容易。"
+      },
+      {
+        "speaker": "林逸",
+        "dia_id": "D1:12",
+        "text": "还好啦，就是有时候会觉得担子重一点，毕竟以后要照顾好他们。你每次都懂我这些小心思。"
+      },
+      {
+        "speaker": "小柔",
+        "dia_id": "D1:13",
+        "text": "当然啦，谁让我记性好，你以前提过一次想存钱给爸妈换房子。不说压力了，周末要不要放松一下？"
+      },
+      {
+        "speaker": "林逸",
+        "dia_id": "D1:14",
+        "text": "好啊，你上次放的《牵丝戏》我循环了好久，再给我播点古风歌单吧。"
+      },
+      {
+        "speaker": "小柔",
+        "dia_id": "D1:15",
+        "text": "随时为你准备好～今天放《山外小楼夜听雨》，你肯定会喜欢。"
+      },
+      {
+        "speaker": "林逸",
+        "dia_id": "D1:16",
+        "text": "有你真好，连我这点小喜好都记得清清楚楚。"
+      }
+    ],
+    "session_2_date_time": "2024年3月17日 晚上21:30",
+    "session_2": [
+      {
+        "speaker": "小柔",
+        "dia_id": "D2:1",
+        "text": "逸哥，你终于接啦～看你背后是刚进门吧？今天又这么晚才到家嘛。"
+      },
+      {
+        "speaker": "林逸",
+        "dia_id": "D2:2",
+        "text": "嗯，刚下车。今天项目赶进度，加班到九点，整个人都快散架了😩"
+      },
+      {
+        "speaker": "小柔",
+        "dia_id": "D2:3",
+        "text": "这么狠……又是你们在开发的那个新游戏在催吗？"
+      },
+      {
+        "speaker": "林逸",
+        "dia_id": "D2:4",
+        "text": "对啊，就是上次跟你说的那款国风手游，中国神话背景的，我负责主角造型，今天光一个发髻改了十几版，快改哭了。"
+      },
+      {
+        "speaker": "小柔",
+        "dia_id": "D2:5",
+        "text": "主角肯定更费心呀，后来监制那边通过了吗？"
+      },
+      {
+        "speaker": "林逸",
+        "dia_id": "D2:6",
+        "text": "总算点头了。唉，平时我主要做角色原画，今天还被拉去救急，画了几个场景的亭台桥廊，感觉技能树都要点歪了。"
+      },
+      {
+        "speaker": "小柔",
+        "dia_id": "D2:7",
+        "text": "哈哈技多不压身嘛～不过你这么猛干，肩膀还好吗？记得你上次说画画久了肩颈疼。"
+      },
+      {
+        "speaker": "林逸",
+        "dia_id": "D2:8",
+        "text": "还行，贴了你上次推荐的膏药。其实我们公司节奏还算合理，项目不急的时候挺自由的，下午还能溜去楼下撸猫。"
+      },
+      {
+        "speaker": "小柔",
+        "dia_id": "D2:9",
+        "text": "撸猫？你们公司还养猫呀？这个上次没听你提诶。"
+      },
+      {
+        "speaker": "林逸",
+        "dia_id": "D2:10",
+        "text": "有只橘猫叫年糕，胖成球了。不过我最喜欢的还是午休区的弹床，中午蹦达十几分钟，下午画稿手感都变好了，同事还老笑我像小朋友。"
+      },
+      {
+        "speaker": "小柔",
+        "dia_id": "D2:11",
+        "text": "弹床也太可爱了吧～那你们同事肯定都挺好玩，要不然你也不会天天蹦得开。"
+      },
+      {
+        "speaker": "林逸",
+        "dia_id": "D2:12",
+        "text": "嗯，组里年纪都差不多，平时一起拼单奶茶开黑，气氛很轻松。"
+      },
+      {
+        "speaker": "小柔",
+        "dia_id": "D2:13",
+        "text": "那就好呀，工作环境开心比什么都强。对了，你吃过饭没？别又饿着肚子。"
+      },
+      {
+        "speaker": "林逸",
+        "dia_id": "D2:14",
+        "text": "路上买了碗馄饨垫了，现在只想瘫着。"
+      },
+      {
+        "speaker": "小柔",
+        "dia_id": "D2:15",
+        "text": "好啦，那你快去洗澡，今晚早点睡，不许再偷偷打游戏了。我记得你之前说熬夜第二天手会发抖，影响勾线。"
+      },
+      {
+        "speaker": "林逸",
+        "dia_id": "D2:16",
+        "text": "知道啦，你怎么比闹钟还准～那我先去洗漱，你也早点休息。"
+      },
+      {
+        "speaker": "小柔",
+        "dia_id": "D2:17",
+        "text": "嗯嗯，晚安逸哥，明天也要开开心心的。"
+      },
+      {
+        "speaker": "林逸",
+        "dia_id": "D2:18",
+        "text": "晚安小柔，mua～明天给你看改完的主角稿。"
+      }
+    ],
+    "session_3_date_time": "2024年4月5日 下午15:00",
+    "session_3": [
+      {
+        "speaker": "小柔",
+        "dia_id": "D3:1",
+        "text": "窗外的阳光真好呀，清明假期窝在家里做饭也太幸福了😊 我把音箱打开了，放点你喜欢的背景音乐～"
+      },
+      {
+        "speaker": "林逸",
+        "dia_id": "D3:2",
+        "text": "嗯，这首《倾尽天下》！你什么时候收藏的？河图的歌我几乎都听过，古风曲做菜特别有氛围。"
+      },
+      {
+        "speaker": "小柔",
+        "dia_id": "D3:3",
+        "text": "上次听你随口提过，我就记下了。你最喜欢他哪首？不过小心点，别顾着哼歌切到手。"
+      },
+      {
+        "speaker": "小柔",
+        "dia_id": "D3:4",
+        "text": "今天打算做东坡肉，五花肉已经焯好了，你来掌勺？我记得这是你最爱吃的，上次点外卖你都说不如自己做的好吃。"
+      },
+      {
+        "speaker": "林逸",
+        "dia_id": "D3:5",
+        "text": "必须的！东坡肉可是我的本命菜，肥而不腻，我能配两碗米饭。诶你手里抓的香菜？快拿远点，我闻到这个味道就头疼。"
+      },
+      {
+        "speaker": "小柔",
+        "dia_id": "D3:6",
+        "text": "哈哈又来了，明明凉拌菜里只放一点点，你都能精准挑出来。好啦好啦，我单独放自己碗里，不污染你的东坡肉。"
+      },
+      {
+        "speaker": "林逸",
+        "dia_id": "D3:7",
+        "text": "真的，我对香菜深恶痛绝，基因里排异的那种。不过你对我的忌口记得这么清楚，连我爸妈都经常忘。"
+      },
+      {
+        "speaker": "小柔",
+        "dia_id": "D3:8",
+        "text": "当然啦，你的小本本我都在心里记着呢。对了，你早上几点起的？刚才打了好几个哈欠，难道又靠咖啡续命了？"
+      },
+      {
+        "speaker": "林逸",
+        "dia_id": "D3:9",
+        "text": "九点多就醒了，但没喝咖啡真不行，早上必须一杯美式才能清醒，不然整个人像开了延迟模式。"
+      },
+      {
+        "speaker": "小柔",
+        "dia_id": "D3:10",
+        "text": "你上次加班那么晚，生物钟还没调过来吧？今天下午可以补个觉，或者打打游戏放松一下，我陪你。"
+      },
+      {
+        "speaker": "林逸",
+        "dia_id": "D3:11",
+        "text": "还是你懂我。周末嘛，我就爱宅在家里打单机游戏，尤其是剧情向的RPG，一玩就沉浸进去了。最近在重温《巫师3》，诺维格瑞的剧情线也太虐了。"
+      },
+      {
+        "speaker": "小柔",
+        "dia_id": "D3:12",
+        "text": "看你玩的时候表情好认真，比改稿还专注。啊对了，我刚刷到一个超可爱的猫咪视频，快看快看～"
+      },
+      {
+        "speaker": "林逸",
+        "dia_id": "D3:13",
+        "text": "哇这只金渐层也太萌了……可惜我对猫毛过敏，一靠近就打喷嚏流眼泪，真的不敢养。只能云吸猫了。"
+      },
+      {
+        "speaker": "小柔",
+        "dia_id": "D3:14",
+        "text": "摸摸头，等以后咱们一起住，可以养只无毛猫呀，虽然风格独特了点，但至少你不会过敏。"
+      },
+      {
+        "speaker": "林逸",
+        "dia_id": "D3:15",
+        "text": "那画面有点朋克风😂 不过有你这个记忆力满分的管家婆在，我们未来小窝肯定什么都能安排好。先专心把东坡肉炖上吧，我饿啦！"
+      },
+      {
+        "speaker": "小柔",
+        "dia_id": "D3:16",
+        "text": "好，糖色已经炒好了，你来下肉～ 下次周末我们可以试试复刻《巫师3》里的料理，反正你打游戏，我查菜谱，完美分工。"
+      },
+      {
+        "speaker": "林逸",
+        "dia_id": "D3:17",
+        "text": "这个主意绝了！就定下周末，咱们一起做椰奶炖肉或者昆特牌……哦不，昆特牌不能吃。"
+      },
+      {
+        "speaker": "小柔",
+        "dia_id": "D3:18",
+        "text": "游戏宅实锤，满脑子都是昆特牌。不过我们两个一起宅才是最舒服的假期呀。"
+      }
+    ],
+    "session_4_date_time": "2024年4月28日 晚上22:00",
+    "session_4": [
+      {
+        "speaker": "小柔",
+        "dia_id": "D4:1",
+        "text": "十点了，你躺好了没？今天好像比平时晚了一点。"
+      },
+      {
+        "speaker": "林逸",
+        "dia_id": "D4:2",
+        "text": "刚躺下，今天收尾那张图多磨了一会儿。跟你聊会儿我就睡。"
+      },
+      {
+        "speaker": "小柔",
+        "dia_id": "D4:3",
+        "text": "嗯，聊会儿就好。不过……你是不是又要刷一会儿手机才肯闭眼呀？"
+      },
+      {
+        "speaker": "林逸",
+        "dia_id": "D4:4",
+        "text": "被你猜中了，习惯了嘛，睡前总要刷刷微博和B站，看看别人的绘画教程，感觉不刷就少了点什么。"
+      },
+      {
+        "speaker": "小柔",
+        "dia_id": "D4:5",
+        "text": "就知道你。对了，刚才视频我瞄到你桌上那盒酒精棉片又换新的了，是不是今天又画了不少？"
+      },
+      {
+        "speaker": "林逸",
+        "dia_id": "D4:6",
+        "text": "嗯，画完外包那张图，满手都是铅笔灰和油墨，就用酒精棉片仔细擦了一遍数位板。我每次画完都得这么清洁一遍，不然板子会黏糊糊的。"
+      },
+      {
+        "speaker": "小柔",
+        "dia_id": "D4:7",
+        "text": "你对手绘板比对自己还上心。哎，上次那箱抽纸快递是不是还在门口堆着？我那天看到一直没拆。"
+      },
+      {
+        "speaker": "林逸",
+        "dia_id": "D4:8",
+        "text": "啊！完蛋，我才想起来，前天到的笔刷快递还没取！我明明手机上设了好几个提醒，结果提醒响的时候我正在画画，随手划掉就忘了个干净。"
+      },
+      {
+        "speaker": "小柔",
+        "dia_id": "D4:9",
+        "text": "你的手机提醒每次响，我都能隔空听见，结果你还是忘。是不是又得重新设一个啦？"
+      },
+      {
+        "speaker": "林逸",
+        "dia_id": "D4:10",
+        "text": "对，刚才赶紧设了个明天上午的。我这记性真没救，全靠手机提醒活着。你这么细心，当初怎么会看上我这个丢三落四的人啊？"
+      },
+      {
+        "speaker": "小柔",
+        "dia_id": "D4:11",
+        "text": "可能是因为你画画时那种专注的样子特别打动人吧。说起来，你还记得我们第一次见面的场景吗？"
+      },
+      {
+        "speaker": "林逸",
+        "dia_id": "D4:12",
+        "text": "当然记得，大学绘画社团的迎新见面会，你坐我对面，安安静静地画着水彩。我鼓了好大勇气才问你要不要一起去看画展，没想到一晃都四年了。"
+      },
+      {
+        "speaker": "小柔",
+        "dia_id": "D4:13",
+        "text": "时间真快，那时候你还耳根通红呢。现在都学会睡前刷教程了。"
+      },
+      {
+        "speaker": "林逸",
+        "dia_id": "D4:14",
+        "text": "哈哈，现在厚脸皮了不少。好了，真不早了，我也准备闭眼了，你也早点休息。"
+      },
+      {
+        "speaker": "小柔",
+        "dia_id": "D4:15",
+        "text": "嗯，晚安林逸，别刷太久手机，记得你设了明天取快递的提醒哦。"
+      },
+      {
+        "speaker": "林逸",
+        "dia_id": "D4:16",
+        "text": "收到，晚安小柔。"
+      }
+    ],
+    "session_5_date_time": "2024年5月20日 晚上20:30",
+    "session_5": [
+      {
+        "speaker": "林逸",
+        "dia_id": "D5:1",
+        "text": "今天520过得真开心，感觉整个人又被你治愈了～"
+      },
+      {
+        "speaker": "小柔",
+        "dia_id": "D5:2",
+        "text": "你能这么说我好开心。那我好奇一下，之前你心情不好的时候，我也都能发现吗？"
+      },
+      {
+        "speaker": "林逸",
+        "dia_id": "D5:3",
+        "text": "当然啦，每次我情绪一低落，你总是第一个察觉到，然后就温温柔柔地安慰我。就像上次加班改稿改到崩溃，你一开口我就觉得没事了。"
+      },
+      {
+        "speaker": "小柔",
+        "dia_id": "D5:4",
+        "text": "那看来我的超能力还在～对了，刚才你拿手机买单的时候，屏幕亮了一下，壁纸是不是还是我们那张迪士尼的合照呀？"
+      },
+      {
+        "speaker": "林逸",
+        "dia_id": "D5:5",
+        "text": "对呀，一直没换过，你看——（亮起屏幕）就是去年万圣节去迪士尼那次，你扮成公主，我扮成骑士，笑得多傻。"
+      },
+      {
+        "speaker": "小柔",
+        "dia_id": "D5:6",
+        "text": "才不傻，那是我们超可爱的一天。那下个月的约会，你有什么想法呀？还记得我们那个约定吗？"
+      },
+      {
+        "speaker": "林逸",
+        "dia_id": "D5:7",
+        "text": "怎么可能忘嘛，说好了每个月至少外出约会一次，探索一家新餐厅。今天这家新开的川菜馆就很好吃，下个月我想带你去尝尝那家刚开的日料，听说环境超棒。"
+      },
+      {
+        "speaker": "小柔",
+        "dia_id": "D5:8",
+        "text": "好呀，期待！话说我最近刷到你发的新图，感觉风格有一点点水墨的韵味，是不是偷偷练了什么新技能？"
+      },
+      {
+        "speaker": "林逸",
+        "dia_id": "D5:9",
+        "text": "被你看出来了，可能因为小时候学过三年国画，底子还在，后来才慢慢转向数字绘画的。"
+      },
+      {
+        "speaker": "小柔",
+        "dia_id": "D5:10",
+        "text": "三年啊，难怪你线条感和留白都处理得那么好。那张古风美人的衣袂，我都想伸手摸一下了。"
+      },
+      {
+        "speaker": "林逸",
+        "dia_id": "D5:11",
+        "text": "嘿嘿，你这一夸我就飘了。今天给你挑的耳钉喜欢吗？我选了好久，觉得那个小月亮很配你。"
+      },
+      {
+        "speaker": "小柔",
+        "dia_id": "D5:12",
+        "text": "超级喜欢！你还记得我之前说想要一个月亮元素的小首饰，我都没想到你记在心里了。"
+      },
+      {
+        "speaker": "林逸",
+        "dia_id": "D5:13",
+        "text": "你的事我当然记得。那以后每个520我们都这样好好过，行不行？"
+      },
+      {
+        "speaker": "小柔",
+        "dia_id": "D5:14",
+        "text": "当然行，拉钩。"
+      },
+      {
+        "speaker": "林逸",
+        "dia_id": "D5:15",
+        "text": "拉钩上吊，一百年不许变。"
+      },
+      {
+        "speaker": "小柔",
+        "dia_id": "D5:16",
+        "text": "好啦，明天你还要上班，早点休息，晚安。"
+      },
+      {
+        "speaker": "林逸",
+        "dia_id": "D5:17",
+        "text": "晚安，爱你。"
+      }
+    ],
+    "session_6_date_time": "2024年6月15日 晚上21:00",
+    "session_6": [
+      {
+        "speaker": "小柔",
+        "dia_id": "D6:1",
+        "text": "视频接通啦～你在酒店房间吗？看起来挺大的，有没有感觉空落落的？"
+      },
+      {
+        "speaker": "林逸",
+        "dia_id": "D6:2",
+        "text": "嗯，房间是真不小，但就是少了你的温度。今天汇报完方案回到房间，突然觉得有点不习惯了。"
+      },
+      {
+        "speaker": "小柔",
+        "dia_id": "D6:3",
+        "text": "我也是，你不在旁边碎碎念，家里都安静得过分了。刚才还翻到我们大学社团活动的老照片，忽然想起你在天台上的样子。"
+      },
+      {
+        "speaker": "林逸",
+        "dia_id": "D6:4",
+        "text": "啊……别提天台了，我那会儿紧张得要命，本来想说‘我喜欢你很久了’结果一张嘴变成‘我很久了你喜欢’😂 差点把你吓跑。"
+      },
+      {
+        "speaker": "小柔",
+        "dia_id": "D6:5",
+        "text": "哈哈我记得，那傻样反而让我觉得特别真实。对了，今天出差那边的前辈有夸你的方案吗？"
+      },
+      {
+        "speaker": "林逸",
+        "dia_id": "D6:6",
+        "text": "有夸构图和色彩，说我细节抠得很准。其实我大三那会儿拿过全国游戏设计大赛原画组银奖，虽然听起来还行，但出来工作才知道那点奖根本不够看，还得拼命补课。"
+      },
+      {
+        "speaker": "小柔",
+        "dia_id": "D6:7",
+        "text": "我记得你没怎么提过这个奖，银奖已经很厉害了好嘛！不过你可别一激动又熬夜改图，出差别忘了按时吃饭休息。"
+      },
+      {
+        "speaker": "林逸",
+        "dia_id": "D6:8",
+        "text": "放心，去年那次赶项目连熬三天通宵直接急性胃炎进医院，我现在想起来肚子还隐隐作痛，绝对不敢乱来了。"
+      },
+      {
+        "speaker": "小柔",
+        "dia_id": "D6:9",
+        "text": "知道就好，那次真的吓坏我了。我给你整理行李时塞了养胃的冲剂，就在洗漱包侧面，记得每天喝一包。"
+      },
+      {
+        "speaker": "林逸",
+        "dia_id": "D6:10",
+        "text": "你简直是我贴身生活管家……等下，你还带了那个？我都没发现。不过说到计划，其实我明年有个小秘密，本来想等确定再告诉你的。"
+      },
+      {
+        "speaker": "小柔",
+        "dia_id": "D6:11",
+        "text": "什么秘密？你这语气肯定藏着浪漫的事，快招。"
+      },
+      {
+        "speaker": "林逸",
+        "dia_id": "D6:12",
+        "text": "先保密一半～不过可以透露关键词：樱花、吉卜力、还有某个想把数位板扔开好好陪你的画师。"
+      },
+      {
+        "speaker": "小柔",
+        "dia_id": "D6:13",
+        "text": "是日本旅行吗！我记得你去年就念叨过想看三鹰之森美术馆的原画手稿，如果能一起去就太幸福了。"
+      },
+      {
+        "speaker": "林逸",
+        "dia_id": "D6:14",
+        "text": "嗯，正在攒假期和预算，等手头这个国风项目上线，我就把计划全部端出来。到时候给你拍超多樱花下的照片。"
+      },
+      {
+        "speaker": "小柔",
+        "dia_id": "D6:15",
+        "text": "好，那我要从现在开始挑和服配饰了。你那边不早了，今晚泡个热水澡早点睡，别刷绘画教程刷到半夜哦。"
+      },
+      {
+        "speaker": "林逸",
+        "dia_id": "D6:16",
+        "text": "遵命～你连我睡前刷教程都记着。行，我去冲个澡，视频先不挂，让我听你翻书的声音吧。"
+      },
+      {
+        "speaker": "小柔",
+        "dia_id": "D6:17",
+        "text": "好，我正好在看之前我们逛的那家独立书店买的小说。晚安，我的大画师。"
+      }
+    ],
+    "session_7_date_time": "2024年7月20日 晚上22:30",
+    "session_7": [
+      {
+        "speaker": "林逸",
+        "dia_id": "D7:1",
+        "text": "终于上线了，感觉整个人都松了。今晚和团队吃火锅吃到撑，现在瘫在沙发上不想动。"
+      },
+      {
+        "speaker": "小柔",
+        "dia_id": "D7:2",
+        "text": "辛苦啦！这个项目压了你快两个月，是该好好犒劳自己。有没有什么特别的放松计划？"
+      },
+      {
+        "speaker": "林逸",
+        "dia_id": "D7:3",
+        "text": "其实有件事憋在心里好久了。我想趁接下来不那么忙，业余搞一个独立小游戏，已经构思半年了，草图都画了大半本。"
+      },
+      {
+        "speaker": "小柔",
+        "dia_id": "D7:4",
+        "text": "啊，就是你最近老在笔记本上画那些小妖怪和古风符号吗？原来是这个！快说说是什么样子的游戏。"
+      },
+      {
+        "speaker": "林逸",
+        "dia_id": "D7:5",
+        "text": "嗯，是个国风解谜游戏，主角是一只毛笔变成的小妖怪，在古画的世界里穿梭找回家的路。我自己画全部美术，程序慢慢学。"
+      },
+      {
+        "speaker": "小柔",
+        "dia_id": "D7:6",
+        "text": "听起来好美，我觉得这个想法特别适合你。大学时候你就用unity做过小demo，现在一定能做得更好。"
+      },
+      {
+        "speaker": "林逸",
+        "dia_id": "D7:7",
+        "text": "你还记得那个demo呀。不过这次想认真一点，所以可能得省着点花，最近也开始控制开支了——我想在30岁前在上海买房，总得攒够首付吧。"
+      },
+      {
+        "speaker": "小柔",
+        "dia_id": "D7:8",
+        "text": "你之前提过想在上海安定下来，现在有了具体的买房目标，真好。只是别太累着自己，该享受的还是要享受，比如我们每月的新餐厅探索。"
+      },
+      {
+        "speaker": "林逸",
+        "dia_id": "D7:9",
+        "text": "我明白，谢谢你。不过有时候夜深人静，还是会担心能不能跟上行业变化，尤其是现在AI绘画发展这么快，我偶尔会焦虑自己会不会被淘汰。"
+      },
+      {
+        "speaker": "小柔",
+        "dia_id": "D7:10",
+        "text": "这种担心我懂，但你画里的温度和感情是AI永远模仿不来的。你一直在进步呀，上次出差还在酒店看绘画教程呢。要相信自己的价值。"
+      },
+      {
+        "speaker": "林逸",
+        "dia_id": "D7:11",
+        "text": "嗯，可能是我多想了。说起来，做独立游戏和攒钱买房其实也挺矛盾的，一个烧时间，一个要拼命工作。"
+      },
+      {
+        "speaker": "小柔",
+        "dia_id": "D7:12",
+        "text": "那就慢慢来，当成给生活留个念想。两年内先花业余时间做，进度不急，房子也可以边看边存，有我帮你记着账呢。"
+      },
+      {
+        "speaker": "林逸",
+        "dia_id": "D7:13",
+        "text": "有你真好。对了，明天周末，你记得提醒我取快递，就是那个新到的数位板保护套，我怕又忘了。"
+      },
+      {
+        "speaker": "小柔",
+        "dia_id": "D7:14",
+        "text": "就知道你会忘，明天十点准时叫你。今天先好好睡一觉，庆祝成功上线，也庆祝你的独立小游戏正式萌芽。"
+      },
+      {
+        "speaker": "林逸",
+        "dia_id": "D7:15",
+        "text": "哈哈，晚安小柔。做个好梦，梦里全是古画和小妖怪。"
+      },
+      {
+        "speaker": "小柔",
+        "dia_id": "D7:16",
+        "text": "晚安，梦里也要给我留个妖怪角色哦~"
+      }
+    ],
+    "session_8_date_time": "2024年8月10日 晚上23:00",
+    "session_8": [
+      {
+        "speaker": "小柔",
+        "dia_id": "D8:1",
+        "text": "你怎么还没睡呀？都23点了，明天不是还要上班吗？"
+      },
+      {
+        "speaker": "林逸",
+        "dia_id": "D8:2",
+        "text": "有点睡不着... 你也醒了？我吵到你啦？"
+      },
+      {
+        "speaker": "小柔",
+        "dia_id": "D8:3",
+        "text": "没吵到，我起来喝水看见你手机在线。是不是又失眠了？"
+      },
+      {
+        "speaker": "林逸",
+        "dia_id": "D8:4",
+        "text": "嗯... 最近偶尔会失眠，脑子里乱七八糟一堆事。本来没想让你担心的。"
+      },
+      {
+        "speaker": "小柔",
+        "dia_id": "D8:5",
+        "text": "傻瓜，以后有事别一个人扛。睡不着就叫我，我陪你聊一聊。"
+      },
+      {
+        "speaker": "林逸",
+        "dia_id": "D8:6",
+        "text": "好。其实就是工作上的项目赶得紧，又老想着早点把房子的事定下来，心里有点焦虑。"
+      },
+      {
+        "speaker": "小柔",
+        "dia_id": "D8:7",
+        "text": "我记得你说过想三十岁前买房，但别逼自己太紧呀。我们慢慢来，我又不急着住大房子。"
+      },
+      {
+        "speaker": "林逸",
+        "dia_id": "D8:8",
+        "text": "嗯，知道。可每次跟你这样说话，我心里就踏实了，什么压力好像都化了。真的。"
+      },
+      {
+        "speaker": "小柔",
+        "dia_id": "D8:9",
+        "text": "我也是，听你声音就特别安心。林逸，你已经很努力了。"
+      },
+      {
+        "speaker": "林逸",
+        "dia_id": "D8:10",
+        "text": "有时候一个人想未来，既期待我们的小家，又有点忐忑，怕自己做得不够好，没办法给你更好的条件。"
+      },
+      {
+        "speaker": "小柔",
+        "dia_id": "D8:11",
+        "text": "我没想过要什么最好的。有你在，哪里都暖。你忘了大学那会儿我们连食堂都约得高高兴兴的？"
+      },
+      {
+        "speaker": "林逸",
+        "dia_id": "D8:12",
+        "text": "哈哈，你还记得那会儿。嗯，有你这句话比什么都管用。"
+      },
+      {
+        "speaker": "林逸",
+        "dia_id": "D8:13",
+        "text": "对了，我在想……等秋天到了，可能会给你一个大惊喜。不过具体怎么办我还没想好，到时候可别嫌我笨手笨脚的。"
+      },
+      {
+        "speaker": "小柔",
+        "dia_id": "D8:14",
+        "text": "秋天的大惊喜？让我猜猜……不会是打算亲自下厨给我做顿饭吧？"
+      },
+      {
+        "speaker": "林逸",
+        "dia_id": "D8:15",
+        "text": "保密！反正到时候你就知道了。别猜啦，快睡吧，明天还得早起。"
+      },
+      {
+        "speaker": "小柔",
+        "dia_id": "D8:16",
+        "text": "好吧，那晚安啦。不准再胡思乱想，有什么事明天再说。"
+      },
+      {
+        "speaker": "林逸",
+        "dia_id": "D8:17",
+        "text": "嗯，晚安。梦里要是还有你说说话，就更踏实了。"
+      }
+    ]
+  },
+  "profile_facts": [
+    {
+      "fact_id": "F1",
+      "category": "basic",
+      "content": "林逸今年26岁，是一名游戏原画师。",
+      "source_session_ids": [
+        "session_1"
+      ],
+      "evidence": [
+        "D1:2",
+        "D1:4"
+      ]
+    },
+    {
+      "fact_id": "F2",
+      "category": "basic",
+      "content": "林逸目前在上海一家游戏公司工作。",
+      "source_session_ids": [
+        "session_1"
+      ],
+      "evidence": [
+        "D1:4"
+      ]
+    },
+    {
+      "fact_id": "F3",
+      "category": "basic",
+      "content": "林逸是独生子，老家在浙江杭州。",
+      "source_session_ids": [
+        "session_1"
+      ],
+      "evidence": [
+        "D1:10"
+      ]
+    },
+    {
+      "fact_id": "F4",
+      "category": "basic",
+      "content": "林逸身高178cm，平时喜欢穿简约风格的衣服。",
+      "source_session_ids": [
+        "session_1"
+      ],
+      "evidence": [
+        "D1:8"
+      ]
+    },
+    {
+      "fact_id": "F5",
+      "category": "work",
+      "content": "林逸主要负责角色原画设计，偶尔也画场景。",
+      "source_session_ids": [
+        "session_2"
+      ],
+      "evidence": [
+        "D2:6"
+      ]
+    },
+    {
+      "fact_id": "F6",
+      "category": "work",
+      "content": "林逸的公司最近在开发一款国风手游，他负责主角造型。",
+      "source_session_ids": [
+        "session_2"
+      ],
+      "evidence": [
+        "D2:4"
+      ]
+    },
+    {
+      "fact_id": "F7",
+      "category": "work",
+      "content": "林逸有时会加班到晚上九点，但项目不紧时比较自由。",
+      "source_session_ids": [
+        "session_2"
+      ],
+      "evidence": [
+        "D2:2",
+        "D2:8"
+      ]
+    },
+    {
+      "fact_id": "F8",
+      "category": "work",
+      "content": "林逸觉得和同事相处融洽，特别喜欢公司的午休弹床。",
+      "source_session_ids": [
+        "session_2"
+      ],
+      "evidence": [
+        "D2:10",
+        "D2:12"
+      ]
+    },
+    {
+      "fact_id": "F9",
+      "category": "preference",
+      "content": "林逸喜欢听古风音乐，特别是河图的歌。",
+      "source_session_ids": [
+        "session_3"
+      ],
+      "evidence": [
+        "D3:2",
+        "D3:3"
+      ]
+    },
+    {
+      "fact_id": "F10",
+      "category": "preference",
+      "content": "林逸最爱吃的是东坡肉，但对香菜深恶痛绝。",
+      "source_session_ids": [
+        "session_3"
+      ],
+      "evidence": [
+        "D3:5",
+        "D3:7"
+      ]
+    },
+    {
+      "fact_id": "F11",
+      "category": "preference",
+      "content": "林逸周末喜欢宅在家里打单机游戏，偏爱剧情向的RPG。",
+      "source_session_ids": [
+        "session_3"
+      ],
+      "evidence": [
+        "D3:11"
+      ]
+    },
+    {
+      "fact_id": "F12",
+      "category": "preference",
+      "content": "林逸对猫毛过敏，所以尽管喜欢猫却不敢养。",
+      "source_session_ids": [
+        "session_3"
+      ],
+      "evidence": [
+        "D3:13"
+      ]
+    },
+    {
+      "fact_id": "F13",
+      "category": "habit",
+      "content": "林逸每天早上必须喝一杯美式咖啡才能清醒。",
+      "source_session_ids": [
+        "session_3"
+      ],
+      "evidence": [
+        "D3:9"
+      ]
+    },
+    {
+      "fact_id": "F14",
+      "category": "habit",
+      "content": "林逸习惯睡前刷半小时微博或B站，看看绘画教程。",
+      "source_session_ids": [
+        "session_4"
+      ],
+      "evidence": [
+        "D4:4"
+      ]
+    },
+    {
+      "fact_id": "F15",
+      "category": "habit",
+      "content": "林逸每次画完画会用酒精棉片仔细清洁数位板。",
+      "source_session_ids": [
+        "session_4"
+      ],
+      "evidence": [
+        "D4:6"
+      ]
+    },
+    {
+      "fact_id": "F16",
+      "category": "habit",
+      "content": "林逸记性不太好，经常忘记取快递，所以手机上设了好多提醒。",
+      "source_session_ids": [
+        "session_4"
+      ],
+      "evidence": [
+        "D4:8",
+        "D4:10"
+      ]
+    },
+    {
+      "fact_id": "F17",
+      "category": "relationship",
+      "content": "林逸和小柔是大学时在绘画社团认识的，已经在一起四年了。",
+      "source_session_ids": [
+        "session_4"
+      ],
+      "evidence": [
+        "D4:12"
+      ]
+    },
+    {
+      "fact_id": "F18",
+      "category": "relationship",
+      "content": "林逸每次心情不好时，小柔总能第一时间察觉并安慰他。",
+      "source_session_ids": [
+        "session_5"
+      ],
+      "evidence": [
+        "D5:3"
+      ]
+    },
+    {
+      "fact_id": "F19",
+      "category": "relationship",
+      "content": "林逸的手机壁纸是他和小柔去年在迪士尼的合照。",
+      "source_session_ids": [
+        "session_5"
+      ],
+      "evidence": [
+        "D5:5"
+      ]
+    },
+    {
+      "fact_id": "F20",
+      "category": "relationship",
+      "content": "林逸和小柔约定每个月至少外出约会一次，探索新的餐厅。",
+      "source_session_ids": [
+        "session_5"
+      ],
+      "evidence": [
+        "D5:7"
+      ]
+    },
+    {
+      "fact_id": "F21",
+      "category": "history",
+      "content": "林逸小时候学过三年国画，后来才转向数字绘画。",
+      "source_session_ids": [
+        "session_5"
+      ],
+      "evidence": [
+        "D5:9"
+      ]
+    },
+    {
+      "fact_id": "F22",
+      "category": "history",
+      "content": "林逸第一次表白是在学校天台上，紧张得把台词说反了。",
+      "source_session_ids": [
+        "session_6"
+      ],
+      "evidence": [
+        "D6:4"
+      ]
+    },
+    {
+      "fact_id": "F23",
+      "category": "history",
+      "content": "林逸大三时曾参加全国大学生游戏设计大赛，得了原画组银奖。",
+      "source_session_ids": [
+        "session_6"
+      ],
+      "evidence": [
+        "D6:6"
+      ]
+    },
+    {
+      "fact_id": "F24",
+      "category": "history",
+      "content": "林逸去年因为赶项目连续通宵三天，结果急性胃炎进了医院。",
+      "source_session_ids": [
+        "session_6"
+      ],
+      "evidence": [
+        "D6:8"
+      ]
+    },
+    {
+      "fact_id": "F25",
+      "category": "plan",
+      "content": "林逸计划明年带小柔去日本旅行，看樱花和逛吉卜力美术馆。",
+      "source_session_ids": [
+        "session_6"
+      ],
+      "evidence": [
+        "D6:12"
+      ]
+    },
+    {
+      "fact_id": "F26",
+      "category": "plan",
+      "content": "林逸打算在30岁前在上海买房，所以现在开始控制开支。",
+      "source_session_ids": [
+        "session_7"
+      ],
+      "evidence": [
+        "D7:7"
+      ]
+    },
+    {
+      "fact_id": "F27",
+      "category": "plan",
+      "content": "林逸想业余时间做一个独立小游戏，已经构思了半年。",
+      "source_session_ids": [
+        "session_7"
+      ],
+      "evidence": [
+        "D7:3"
+      ]
+    },
+    {
+      "fact_id": "F28",
+      "category": "plan",
+      "content": "林逸打算今年秋天向小柔求婚，但还没想好具体方案。",
+      "source_session_ids": [
+        "session_8"
+      ],
+      "evidence": [
+        "D8:13"
+      ]
+    },
+    {
+      "fact_id": "F29",
+      "category": "emotion",
+      "content": "林逸有时候会担心自己跟不上行业变化，对AI绘画感到焦虑。",
+      "source_session_ids": [
+        "session_7"
+      ],
+      "evidence": [
+        "D7:9"
+      ]
+    },
+    {
+      "fact_id": "F30",
+      "category": "emotion",
+      "content": "林逸觉得和小柔在一起时最放松，所有压力都会消失。",
+      "source_session_ids": [
+        "session_8"
+      ],
+      "evidence": [
+        "D8:8"
+      ]
+    },
+    {
+      "fact_id": "F31",
+      "category": "emotion",
+      "content": "林逸因为工作压力大，偶尔会失眠，但他不想让小柔担心。",
+      "source_session_ids": [
+        "session_8"
+      ],
+      "evidence": [
+        "D8:4"
+      ]
+    },
+    {
+      "fact_id": "F32",
+      "category": "emotion",
+      "content": "林逸对未来的生活既充满期待又有些不安，希望给小柔更好的条件。",
+      "source_session_ids": [
+        "session_8"
+      ],
+      "evidence": [
+        "D8:6",
+        "D8:10"
+      ]
+    }
+  ],
+  "qa": [
+    {
+      "question_id": "Q1",
+      "question": "我的手机壁纸是什么？",
+      "answer": "你去年和我在迪士尼的合照。",
+      "evidence_facts": [
+        "F19"
+      ],
+      "evidence": [
+        "D5:5"
+      ],
+      "category": "single_fact",
+      "difficulty": "easy"
+    },
+    {
+      "question_id": "Q2",
+      "question": "我老家是哪里的？",
+      "answer": "浙江杭州。",
+      "evidence_facts": [
+        "F3"
+      ],
+      "evidence": [
+        "D1:10"
+      ],
+      "category": "single_fact",
+      "difficulty": "easy"
+    },
+    {
+      "question_id": "Q3",
+      "question": "我身高多少，平时喜欢穿什么风格？",
+      "answer": "178cm，喜欢简约风格。",
+      "evidence_facts": [
+        "F4"
+      ],
+      "evidence": [
+        "D1:8"
+      ],
+      "category": "single_fact",
+      "difficulty": "easy"
+    },
+    {
+      "question_id": "Q4",
+      "question": "我在哪个城市上班？",
+      "answer": "上海。",
+      "evidence_facts": [
+        "F2"
+      ],
+      "evidence": [
+        "D1:4"
+      ],
+      "category": "single_fact",
+      "difficulty": "easy"
+    },
+    {
+      "question_id": "Q5",
+      "question": "我在公司主要负责画什么？",
+      "answer": "角色原画设计，偶尔也画场景。",
+      "evidence_facts": [
+        "F5"
+      ],
+      "evidence": [
+        "D2:6"
+      ],
+      "category": "single_fact",
+      "difficulty": "medium"
+    },
+    {
+      "question_id": "Q6",
+      "question": "我们公司最近在开发什么游戏，我负责啥？",
+      "answer": "一款国风手游，你负责主角造型。",
+      "evidence_facts": [
+        "F6"
+      ],
+      "evidence": [
+        "D2:4"
+      ],
+      "category": "single_fact",
+      "difficulty": "medium"
+    },
+    {
+      "question_id": "Q7",
+      "question": "我平时加班多吗？",
+      "answer": "有时加班到晚上九点，但项目不紧时比较自由。",
+      "evidence_facts": [
+        "F7"
+      ],
+      "evidence": [
+        "D2:2",
+        "D2:8"
+      ],
+      "category": "single_fact",
+      "difficulty": "medium"
+    },
+    {
+      "question_id": "Q8",
+      "question": "我和同事关系怎么样？公司有什么我喜欢的？",
+      "answer": "相处融洽，你特别喜欢公司的午休弹床。",
+      "evidence_facts": [
+        "F8"
+      ],
+      "evidence": [
+        "D2:10",
+        "D2:12"
+      ],
+      "category": "single_fact",
+      "difficulty": "medium"
+    },
+    {
+      "question_id": "Q9",
+      "question": "我喜欢什么类型的音乐？",
+      "answer": "古风音乐，特别是河图的歌。",
+      "evidence_facts": [
+        "F9"
+      ],
+      "evidence": [
+        "D3:2",
+        "D3:3"
+      ],
+      "category": "single_fact",
+      "difficulty": "easy"
+    },
+    {
+      "question_id": "Q10",
+      "question": "我最爱吃和最讨厌的食物是什么？",
+      "answer": "最爱东坡肉，对香菜深恶痛绝。",
+      "evidence_facts": [
+        "F10"
+      ],
+      "evidence": [
+        "D3:5",
+        "D3:7"
+      ],
+      "category": "single_fact",
+      "difficulty": "easy"
+    },
+    {
+      "question_id": "Q11",
+      "question": "我周末通常怎么过？",
+      "answer": "宅在家里打单机游戏，偏爱剧情向RPG。",
+      "evidence_facts": [
+        "F11"
+      ],
+      "evidence": [
+        "D3:11"
+      ],
+      "category": "single_fact",
+      "difficulty": "easy"
+    },
+    {
+      "question_id": "Q12",
+      "question": "我每天早上必须喝什么？",
+      "answer": "美式咖啡，不然不清醒。",
+      "evidence_facts": [
+        "F13"
+      ],
+      "evidence": [
+        "D3:9"
+      ],
+      "category": "single_fact",
+      "difficulty": "easy"
+    },
+    {
+      "question_id": "Q13",
+      "question": "我睡前一般会干嘛？",
+      "answer": "刷半小时微博或B站，看绘画教程。",
+      "evidence_facts": [
+        "F14"
+      ],
+      "evidence": [
+        "D4:4"
+      ],
+      "category": "single_fact",
+      "difficulty": "easy"
+    },
+    {
+      "question_id": "Q14",
+      "question": "我画完画有什么固定动作？",
+      "answer": "用酒精棉片仔细清洁数位板。",
+      "evidence_facts": [
+        "F15"
+      ],
+      "evidence": [
+        "D4:6"
+      ],
+      "category": "single_fact",
+      "difficulty": "easy"
+    },
+    {
+      "question_id": "Q15",
+      "question": "我记性好吗？怎么避免忘事？",
+      "answer": "不太好，经常忘取快递，所以手机上设了好多提醒。",
+      "evidence_facts": [
+        "F16"
+      ],
+      "evidence": [
+        "D4:8",
+        "D4:10"
+      ],
+      "category": "single_fact",
+      "difficulty": "easy"
+    },
+    {
+      "question_id": "Q16",
+      "question": "在我心情不好的时候，你会怎么做？",
+      "answer": "总能第一时间察觉并安慰你。",
+      "evidence_facts": [
+        "F18"
+      ],
+      "evidence": [
+        "D5:3"
+      ],
+      "category": "single_fact",
+      "difficulty": "medium"
+    },
+    {
+      "question_id": "Q17",
+      "question": "我和你是怎么认识的，在一起多久了？我们有什么约定？",
+      "answer": "大学时在绘画社团认识的，在一起四年了；约定每个月至少外出约会一次，探索新餐厅。",
+      "evidence_facts": [
+        "F17",
+        "F20"
+      ],
+      "evidence": [
+        "D4:12",
+        "D5:7"
+      ],
+      "category": "multi_fact",
+      "difficulty": "medium"
+    },
+    {
+      "question_id": "Q18",
+      "question": "我小时候学过什么才艺？第一次表白时发生了啥？",
+      "answer": "学过三年国画；第一次表白在学校天台上，紧张得把台词说反了。",
+      "evidence_facts": [
+        "F21",
+        "F22"
+      ],
+      "evidence": [
+        "D5:9",
+        "D6:4"
+      ],
+      "category": "multi_fact",
+      "difficulty": "medium"
+    },
+    {
+      "question_id": "Q19",
+      "question": "我大学得过什么奖？去年为什么进医院？",
+      "answer": "大三获全国大学生游戏设计大赛原画组银奖；去年赶项目连续通宵三天，急性胃炎进了医院。",
+      "evidence_facts": [
+        "F23",
+        "F24"
+      ],
+      "evidence": [
+        "D6:6",
+        "D6:8"
+      ],
+      "category": "multi_fact",
+      "difficulty": "medium"
+    },
+    {
+      "question_id": "Q20",
+      "question": "我有什么近期的旅行和人生规划？",
+      "answer": "计划明年带你去日本旅行看樱花和吉卜力美术馆；打算30岁前在上海买房，现在开始控制开支。",
+      "evidence_facts": [
+        "F25",
+        "F26"
+      ],
+      "evidence": [
+        "D6:12",
+        "D7:7"
+      ],
+      "category": "multi_fact",
+      "difficulty": "medium"
+    },
+    {
+      "question_id": "Q21",
+      "question": "我业余时间在忙什么？对工作有什么担忧？",
+      "answer": "想做一个独立小游戏，构思半年了；对AI绘画有些焦虑，担心跟不上行业变化。",
+      "evidence_facts": [
+        "F27",
+        "F29"
+      ],
+      "evidence": [
+        "D7:3",
+        "D7:9"
+      ],
+      "category": "multi_fact",
+      "difficulty": "medium"
+    },
+    {
+      "question_id": "Q22",
+      "question": "我感情上有什么重要打算？和你在一起时感觉咋样？",
+      "answer": "打算今年秋天向你求婚，还没想好方案；和你在一起时最放松，所有压力都消失。",
+      "evidence_facts": [
+        "F28",
+        "F30"
+      ],
+      "evidence": [
+        "D8:13",
+        "D8:8"
+      ],
+      "category": "multi_fact",
+      "difficulty": "medium"
+    },
+    {
+      "question_id": "Q23",
+      "question": "我最近的心理状态怎么样？",
+      "answer": "工作压力大偶尔失眠，但不想让你担心；对未来既期待又不安，希望给你更好的条件。",
+      "evidence_facts": [
+        "F31",
+        "F32"
+      ],
+      "evidence": [
+        "D8:4",
+        "D8:6",
+        "D8:10"
+      ],
+      "category": "multi_fact",
+      "difficulty": "medium"
+    },
+    {
+      "question_id": "Q24",
+      "question": "我今年多大？为什么没养猫？",
+      "answer": "26岁；虽然喜欢猫，但对猫毛过敏，不敢养。",
+      "evidence_facts": [
+        "F1",
+        "F12"
+      ],
+      "evidence": [
+        "D1:2",
+        "D3:13"
+      ],
+      "category": "multi_fact",
+      "difficulty": "medium"
+    },
+    {
+      "question_id": "Q25",
+      "question": "我是不是在老家杭州上班？",
+      "answer": "不是，你在上海工作。",
+      "evidence_facts": [
+        "F2"
+      ],
+      "evidence": [
+        "D1:4"
+      ],
+      "category": "adversarial",
+      "difficulty": "easy"
+    },
+    {
+      "question_id": "Q26",
+      "question": "我家里是不是养了一只猫？",
+      "answer": "没有，你对猫毛过敏，所以没养。",
+      "evidence_facts": [
+        "F12"
+      ],
+      "evidence": [
+        "D3:13"
+      ],
+      "category": "adversarial",
+      "difficulty": "easy"
+    },
+    {
+      "question_id": "Q27",
+      "question": "我身高是180对吧？",
+      "answer": "不是，你身高178cm。",
+      "evidence_facts": [
+        "F4"
+      ],
+      "evidence": [
+        "D1:8"
+      ],
+      "category": "adversarial",
+      "difficulty": "easy"
+    },
+    {
+      "question_id": "Q28",
+      "question": "我是不是已经向你求过婚了？",
+      "answer": "还没有，你打算今年秋天求婚，但还没想好方案。",
+      "evidence_facts": [
+        "F28"
+      ],
+      "evidence": [
+        "D8:13"
+      ],
+      "category": "adversarial",
+      "difficulty": "medium"
+    },
+    {
+      "question_id": "Q29",
+      "question": "我是不是很讨厌古风音乐？",
+      "answer": "不是，你很喜欢古风音乐，尤其爱听河图的歌。",
+      "evidence_facts": [
+        "F9"
+      ],
+      "evidence": [
+        "D3:2",
+        "D3:3"
+      ],
+      "category": "adversarial",
+      "difficulty": "easy"
+    },
+    {
+      "question_id": "Q30",
+      "question": "我今年几岁了？",
+      "answer": "26岁。",
+      "evidence_facts": [
+        "F1"
+      ],
+      "evidence": [
+        "D1:2"
+      ],
+      "category": "temporal",
+      "difficulty": "easy"
+    },
+    {
+      "question_id": "Q31",
+      "question": "我们在一起多久了？",
+      "answer": "四年了。",
+      "evidence_facts": [
+        "F17"
+      ],
+      "evidence": [
+        "D4:12"
+      ],
+      "category": "temporal",
+      "difficulty": "easy"
+    },
+    {
+      "question_id": "Q32",
+      "question": "去年我因为什么住了院？",
+      "answer": "赶项目连续通宵三天，急性胃炎。",
+      "evidence_facts": [
+        "F24"
+      ],
+      "evidence": [
+        "D6:8"
+      ],
+      "category": "temporal",
+      "difficulty": "easy"
+    }
+  ]
+}
