@@ -1,140 +1,136 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""
-Memory gRPC Server - 记忆系统 gRPC 服务入口
-通过 gRPC 接口暴露 MemoryService 的记忆检索能力
+"""memA 命令行入口：extract / update / retrieve / show-config。
+
+示例:
+    # 抽取一段对话
+    python -m src.main extract --user-id user_001 --history-file sample.json
+
+    # 对用户进行 sleep mode 合并 + 生成 category.md
+    python -m src.main update --user-id user_001
+
+    # 在线检索
+    python -m src.main retrieve --user-id user_001 --query "用户喜欢什么颜色" --top-k 5
 """
 
-import os
+from __future__ import annotations
+
+import argparse
+import json
 import sys
-from concurrent import futures
-import grpc
-from loguru import logger
+from pathlib import Path
+from typing import Any
 
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'protos'))
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
 
-from protos import mem_pb2
-from protos import mem_pb2_grpc
-from config.config import Config
-from services.retrieval_memory_service import RetrievalMemoryService
-
-
-class MemoryServiceServicer(mem_pb2_grpc.MemoryServiceServicer):
-    """
-    gRPC 服务实现 - 封装 MemoryService 的记忆检索能力
-    """
-    
-    def __init__(self, memory_service: RetrievalMemoryService):
-        self.memory_service = memory_service
-        logger.info("MemoryServiceServicer 初始化完成")
-    
-    def GetUserAllMemory(self, request, context):
-        """
-        获取指定用户的所有记忆（不限 agent）
-        """
-        logger.info(f"GetChildAllMemory: child_id={request.child_id}, child_name={request.child_name}")
-        
-        try:
-            memories = self.memory_service.get_all_memory(
-                child_id=request.child_id,
-                agent_id=None
-            )
-            
-            return self._build_response(memories)
-        except Exception as e:
-            logger.error(f"GetChildAllMemory 失败: {e}")
-            context.set_code(grpc.StatusCode.INTERNAL)
-            context.set_details(str(e))
-            return mem_pb2.MemResponse(code=-1, message=str(e), data=[])
-    
-    def GetRelateMemory(self, request, context):
-        """
-        根据 query 检索相关记忆
-        """
-        query = request.query if request.HasField('query') else ""
-        agent_id = request.agent_id if request.HasField('agent_id') else None
-        limit = request.limit if request.HasField('limit') else 10
-        intent = request.intent if request.HasField('intent') else None
-        
-        logger.info(f"GetRelateMemory: child_id={request.child_id}, child_name={request.child_name}, agent_id={agent_id}, intent={intent}, query={repr(query[:50])}")
-        
-        try:
-            if not query:
-                context.set_code(grpc.StatusCode.INVALID_ARGUMENT)
-                context.set_details("query is required")
-                return mem_pb2.MemResponse(code=-1, message="query is required", data=[])
-            
-            memory_contents = self.memory_service.get_relate_memory(
-                child_id=request.child_id,
-                agent_id=agent_id,
-                query=query,
-                top_k=limit
-            )
-            
-            return mem_pb2.MemResponse(code=0, message="success", data=memory_contents)
-        except Exception as e:
-            logger.error(f"GetRelateMemory 失败: {e}")
-            context.set_code(grpc.StatusCode.INTERNAL)
-            context.set_details(str(e))
-            return mem_pb2.MemResponse(code=-1, message=str(e), data=[])
-    
-    def _build_response(self, memories: list, code: int = 0, message: str = "success") -> mem_pb2.MemResponse:
-        """
-        构建统一的 MemoryResponse
-        """
-        data = []
-        for m in memories:
-            if isinstance(m, dict):
-                data.append(m.get("memory_content", ""))
-            elif isinstance(m, str):
-                data.append(m)
-        
-        return mem_pb2.MemResponse(code=code, message=message, data=data)
+from config.setting import Config  # noqa: E402
+from src.services.memory_service import MemoryService  # noqa: E402
 
 
-def serve():
-    """
-    启动 gRPC 服务器
-    """
-    host = os.getenv("SERVICE_HOST", "0.0.0.0")
-    port = os.getenv("SERVICE_PORT", "51666")
-    max_workers = int(os.getenv("SERVICE_WORKERS", "8"))
-    
-    logger.info("=" * 50)
-    logger.info("初始化 Memory gRPC 服务...")
-    logger.info(f"host: {host}")
-    logger.info(f"port: {port}")
-    logger.info(f"max_workers: {max_workers}")
-    logger.info("=" * 50)
-    
-    memory_service = RetrievalMemoryService(config=Config)
-    logger.info("RetrievalMemoryService 初始化完成")
-    
-    server = grpc.server(futures.ThreadPoolExecutor(max_workers=max_workers))
-    
-    servicer = MemoryServiceServicer(memory_service)
-    mem_pb2_grpc.add_MemoryServiceServicer_to_server(servicer, server)
-    
-    server_address = f"{host}:{port}"
-    server.add_insecure_port(server_address)
-    
-    server.start()
-    logger.info("=" * 50)
-    logger.info(f"Memory gRPC 服务已启动")
-    logger.info(f"监听地址: {server_address}")
-    logger.info(f"工作线程数: {max_workers}")
-    logger.info("=" * 50)
-# ssh -R 7897:127.0.0.1:7890 -p 47794 root@connect.bjb2.seetacloud.com
-# export https_proxy=http://127.0.0.1:7897
-# export http_proxy=http://127.0.0.1:7897
-  
-    try:
-        server.wait_for_termination()
-    except KeyboardInterrupt:
-        logger.info("收到中断信号，正在关闭服务...")
-        server.stop(grace=5)
-        logger.info("服务已关闭")
+def _print_json(data: Any) -> None:
+    print(json.dumps(data, ensure_ascii=False, indent=2, default=str))
+
+
+def cmd_extract(args: argparse.Namespace) -> int:
+    service = MemoryService()
+    if args.history_file:
+        history = json.loads(Path(args.history_file).read_text(encoding="utf-8"))
+    else:
+        if not args.conversation_json:
+            print("必须传入 --history-file 或 --conversation-json", file=sys.stderr)
+            return 1
+        history = {
+            "user_id": args.user_id,
+            "session_id": args.session_id,
+            "conversation_date_time": args.conversation_date_time,
+            "conversation": json.loads(args.conversation_json),
+        }
+    history.setdefault("user_id", args.user_id)
+    result = service.extract_pipeline.extract_pipeline(
+        history=history, compress_rate=args.compress_rate
+    )
+    _print_json(result)
+    return 0
+
+
+def cmd_update(args: argparse.Namespace) -> int:
+    service = MemoryService()
+    report = service.update_user_memory(
+        user_id=args.user_id,
+        max_workers=args.max_workers,
+        enable_merge=not args.skip_merge,
+        enable_doc=not args.skip_doc,
+    )
+    _print_json(report)
+    return 0
+
+
+def cmd_retrieve(args: argparse.Namespace) -> int:
+    service = MemoryService()
+    results = service.retrieve_memory(
+        user_id=args.user_id,
+        query=args.query,
+        top_k=args.top_k,
+        memory_type=args.memory_type,
+        memory_category=args.memory_category,
+        use_bge_rerank=not args.no_bge_rerank,
+        use_llm_rerank=args.llm_rerank,
+        use_mmr=not args.no_mmr,
+    )
+    _print_json(results)
+    return 0
+
+
+def cmd_show_config(_: argparse.Namespace) -> int:
+    print(Config.describe())
+    return 0
+
+
+def build_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(prog="memA")
+    sub = parser.add_subparsers(dest="cmd", required=True)
+
+    p_extract = sub.add_parser("extract", help="抽取一段对话的记忆")
+    p_extract.add_argument("--user-id", required=True)
+    p_extract.add_argument("--history-file", help="json 文件路径")
+    p_extract.add_argument(
+        "--conversation-json", help="直接传入 conversation 数组的 JSON 字符串"
+    )
+    p_extract.add_argument("--session-id", default=None)
+    p_extract.add_argument("--conversation-date-time", default=None)
+    p_extract.add_argument("--compress-rate", type=float, default=None)
+    p_extract.set_defaults(func=cmd_extract)
+
+    p_update = sub.add_parser("update", help="对用户跑 sleep mode 合并 + 生成 category.md")
+    p_update.add_argument("--user-id", required=True)
+    p_update.add_argument("--max-workers", type=int, default=4)
+    p_update.add_argument("--skip-merge", action="store_true")
+    p_update.add_argument("--skip-doc", action="store_true")
+    p_update.set_defaults(func=cmd_update)
+
+    p_retrieve = sub.add_parser("retrieve", help="混合检索")
+    p_retrieve.add_argument("--user-id", required=True)
+    p_retrieve.add_argument("--query", required=True)
+    p_retrieve.add_argument("--top-k", type=int, default=10)
+    p_retrieve.add_argument("--memory-type", default=None)
+    p_retrieve.add_argument("--memory-category", default=None)
+    p_retrieve.add_argument("--no-bge-rerank", action="store_true")
+    p_retrieve.add_argument("--llm-rerank", action="store_true")
+    p_retrieve.add_argument("--no-mmr", action="store_true")
+    p_retrieve.set_defaults(func=cmd_retrieve)
+
+    p_cfg = sub.add_parser("show-config", help="打印当前配置")
+    p_cfg.set_defaults(func=cmd_show_config)
+
+    return parser
+
+
+def main() -> int:
+    args = build_parser().parse_args()
+    return args.func(args)
 
 
 if __name__ == "__main__":
-    serve()
+    raise SystemExit(main())

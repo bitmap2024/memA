@@ -13,7 +13,7 @@ RUN apt-get update && apt-get install -y \
 RUN ln -s /usr/bin/python3.10 /usr/bin/python
 RUN python -m pip install --upgrade pip
 
-WORKDIR /app
+WORKDIR /memA
 
 COPY requirements.base.txt .
 

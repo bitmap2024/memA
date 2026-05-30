@@ -1,0 +1,31 @@
+{
+  "user_id": "user_001",
+  "session_id": "session_001",
+  "conversation_date_time": "2026-05-18T13:21:00+08:00",
+  "conversation": [
+    {
+      "role": "user",
+      "content": "我想要去巴黎玩，给我推荐一些美食。"
+    },
+    {
+      "role": "assistant",
+      "content": "好的，给你推荐一些巴黎的美食，比如法式蜗牛、鹅肝、奶酪、红酒、法式面包等。"
+    },
+    {
+      "role": "user",
+      "content": "我不喜欢，我喜欢烤肉，有好吃的烤肉店吗？"
+    },
+    {
+      "role": "assistant",
+      "content": "好的，给你推荐一些巴黎的烤肉店，比如 Le Severo、Au Boeuf Couronné、Le Relais de l'Entrecôte。"
+    },
+    {
+      "role": "user",
+      "content": "顺便记一下，我最近在准备产品经理面试，压力很大。"
+    },
+    {
+      "role": "assistant",
+      "content": "辛苦了，注意休息。需要的时候我陪你梳理面试要点。"
+    }
+  ]
+}

@@ -1,3 +1,37 @@
-scikit-learn
-pydantic-settings
-python-Levenshtein
+# ===== 核心依赖 =====
+python-dotenv>=1.0.0
+loguru>=0.7.0
+pydantic>=2.5.0
+openai>=1.30.0
+
+# ===== 向量库 / 关系库 =====
+qdrant-client>=1.9.0
+pymysql>=1.1.0          # 真实 MySQL 模式（本地默认走内置 sqlite3）
+
+# ===== Embedding / 主题分割 =====
+grpcio>=1.59.0
+grpcio-tools>=1.59.0
+protobuf>=4.25.0
+numpy>=1.24.0
+scikit-learn>=1.3.0
+
+# ===== 文本压缩（可选，需要本地 GPU/CPU 模型） =====
+# llmlingua>=0.2.2
+# torch>=2.0.0
+# transformers>=4.40.0
+
+# ===== rerank（可选） =====
+# 启用 bge-rerank 时取消注释
+# transformers>=4.40.0
+# torch>=2.0.0
+
+# ===== OSS（可选） =====
+# oss2>=2.18.0
+
+# ===== 工作流示例（可选，src/queue/prefect_memory_flow.py） =====
+# prefect>=3.0.0
+
+# ===== 工具 =====
+python-Levenshtein>=0.23.0
+tqdm>=4.66.0
+pytz

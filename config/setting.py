@@ -1,162 +1,226 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# @File    : config.py
+"""统一配置：所有运行时参数从 .env 读取，组件直接 import config 即可。"""
 
-"""
-配置管理模块
-支持从环境变量读取配置（可通过 start.sh 导出环境变量）
-"""
+from __future__ import annotations
 
 import os
-from typing import Optional, Dict, Any
-from pydantic_settings import BaseSettings
-from pydantic import Field
+from dataclasses import dataclass
+from pathlib import Path
+from typing import Optional
+
+from dotenv import load_dotenv
 
 
-class ServiceConfig(BaseSettings):
-    """服务配置"""
-    
-    HOST: str = "0.0.0.0"
-    PORT: int = 8000
-    WORKERS: int = 1
-    DEBUG: bool = False
-    
-    class Config:
-        env_prefix = "SERVICE_"
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+ENV_PATH = PROJECT_ROOT / ".env"
+load_dotenv(ENV_PATH)
 
 
-class LLMConfig(BaseSettings):
-    """LLM 配置"""
-    API_KEY: str = "sk-b7d48e7fc9ef44b4b33c80470402d52a"
-    BASE_URL: str = "https://api.deepseek.com"
-    MODEL: str = "deepseek-chat"
-    TEMPERATURE: float = 0.7
-    MAX_TOKENS: int = 2048
-    TOP_P: float = 0.95
-    STREAM: bool = False
-    TIMEOUT: int = 60
-    
-    class Config:
-        env_prefix = "LLM_"
-
-class QdrantConfig(BaseSettings):
-    """Qdrant 配置"""
-
-    URL: str = "http://localhost:6333"
-    API_KEY: str = ""
-    COLLECTION: str = "light_memory_rag"
-    VECTOR_SIZE: int = 1024
-    DISTANCE: str = "cosine"
-    TIMEOUT: int = 30
-
-    class Config:
-        env_prefix = "QDRANT_"
+def _env(key: str, default: Optional[str] = None) -> Optional[str]:
+    value = os.getenv(key)
+    if value is None:
+        return default
+    value = value.strip()
+    return value or default
 
 
-class EmbeddingConfig(BaseSettings):
-    """Embedding 服务配置"""
-    HOST: str = "172.16.2.124"
-    PORT: int = 80
-    MODEL: str = "bge-m3"
-    
-    @property
-    def URL(self) -> str:
-        return f"http://{self.HOST}:{self.PORT}"
-    
-    class Config:
-        env_prefix = "EMBEDDING_"
+def _env_int(key: str, default: int) -> int:
+    value = _env(key)
+    try:
+        return int(value) if value is not None else default
+    except ValueError:
+        return default
 
 
-
-class CompressorConfig(BaseSettings):
-    """Compressor 配置"""
-    
-    MODEL_PATH: str = "/root/chendong/hf_models/microsoft/llmlingua-2-bert-base-multilingual-cased-meetingbank"
-    CONFIGS: Dict[str, Any] = {}
-    
-    class Config:
-        env_prefix = "PRE_COMPRESSOR_"
+def _env_float(key: str, default: float) -> float:
+    value = _env(key)
+    try:
+        return float(value) if value is not None else default
+    except ValueError:
+        return default
 
 
+@dataclass
+class ServiceConfig:
+    HOST: str = _env("service_host", "0.0.0.0")
+    PORT: int = _env_int("service_port", 51666)
+    WORKERS: int = _env_int("service_workers", 8)
+    DEBUG: bool = (_env("service_debug", "false") or "false").lower() == "true"
+
+
+@dataclass
+class LLMConfig:
+    API_KEY: str = _env("deepseek_api_key", "")
+    BASE_URL: str = _env("deepseek_base_url", "https://api.deepseek.com")
+    MODEL: str = _env("deepseek_model", "deepseek-chat")
+    TEMPERATURE: float = _env_float("deepseek_temperature", 0.4)
+    MAX_TOKENS: int = _env_int("deepseek_max_tokens", 4096)
+    TOP_P: float = _env_float("deepseek_top_p", 0.95)
+    TIMEOUT: int = _env_int("deepseek_timeout", 60)
+
+
+@dataclass
+class QdrantConfig:
+    URL: str = _env("qdrant_url", "http://localhost:6333")
+    API_KEY: str = _env("qdrant_api_key", "")
+    COLLECTION: str = _env("qdrant_collection_name", "mema")
+    DENSE_DIM: int = _env_int("qdrant_dense_dim", 1024)
+    DISTANCE: str = _env("qdrant_distance", "cosine")
+    TIMEOUT: int = _env_int("qdrant_timeout", 30)
+
+
+@dataclass
+class MysqlConfig:
+    HOST: str = _env("mysql_host", "127.0.0.1")
+    PORT: int = _env_int("mysql_port", 3306)
+    USER: str = _env("mysql_user", "root")
+    PASSWORD: str = _env("mysql_password", "")
+    DATABASE: str = _env("mysql_database", "memA")
+    # SQLite 兼容（本地默认走 sqlite）。如果设置 mysql_use_sqlite=true，本地直接走 SQLite。
+    USE_SQLITE: bool = (_env("mysql_use_sqlite", "true") or "true").lower() == "true"
+    SQLITE_PATH: str = _env(
+        "mysql_sqlite_path",
+        str(PROJECT_ROOT / "var" / "memA.sqlite3"),
+    )
+
+
+@dataclass
+class OssConfig:
+    BUCKET: str = _env("oss_bucket_name", "memA")
+    ENDPOINT: str = _env("oss_endpoint", "https://oss-cn-hangzhou.aliyuncs.com")
+    ACCESS_KEY_ID: str = _env("oss_access_key_id", "")
+    ACCESS_KEY_SECRET: str = _env("oss_access_key_secret", "")
+    # 本地兜底目录，连不上 OSS 时写本地磁盘
+    LOCAL_FALLBACK_DIR: str = _env(
+        "oss_local_fallback_dir",
+        str(PROJECT_ROOT / "var" / "oss_local"),
+    )
+    PREFIX: str = _env("oss_prefix", "chat_bot_memory")
+
+
+@dataclass
+class MilvusConfig:
+    URI: str = _env("milvus_uri", "http://localhost:19530")
+    TOKEN: str = _env("milvus_token", "")
+    DATABASE: str = _env("milvus_database", "default")
+    COLLECTION: str = _env("milvus_collection_name", "memA")
+    DENSE_DIM: int = _env_int("milvus_dense_dim", 1024)
+    METRIC_TYPE: str = _env("milvus_metric_type", "COSINE")
+    TIMEOUT: int = _env_int("milvus_timeout", 30)
+
+
+@dataclass
+class EmbeddingConfig:
+    HOST: str = _env("embedding_host", "127.0.0.1")
+    PORT: int = _env_int("embedding_port", 50051)
+    MODEL: str = _env("embedding_model", "bge-m3")
+    POOL_SIZE: int = _env_int("embedding_pool_size", 5)
+    TIMEOUT: int = _env_int("embedding_timeout", 30)
+
+
+@dataclass
+class CompressorConfig:
+    MODEL_PATH: str = _env(
+        "compressor_model_path",
+        r"D:\aiworks\premodel\llmlingua-2-bert-base-multilingual-cased-meetingbank",
+    )
+    RATE: float = _env_float("compressor_rate", 0.85)
+    MAX_TOKENS: int = _env_int("compressor_max_tokens", 512)
+
+
+@dataclass
+class RetrievalConfig:
+    TOPIC_TOKEN_THRESHOLD: int = _env_int("topic_token_threshold", 512)
+    TOPIC_SIMILARITY_THRESHOLD: float = _env_float("topic_similarity_threshold", 0.55)
+    DEFAULT_TOP_K: int = _env_int("retrieval_top_k", 10)
+    DENSE_SCORE_THRESHOLD: float = _env_float("retrieval_dense_threshold", 0.4)
+    MERGE_SIM_THRESHOLD: float = _env_float("merge_similarity_threshold", 0.5)
+    RRF_RANK_CONSTANT: int = _env_int("rrf_rank_constant", 60)
+    MMR_LAMBDA: float = _env_float("mmr_lambda", 0.5)
+    TIME_DECAY_TAU_DAYS: float = _env_float("time_decay_tau_days", 30.0)
+
+
+@dataclass
+class RerankerConfig:
+    BGE_RERANK_PATH: str = _env(
+        "bge_rerank_path",
+        r"D:\aiworks\premodel\bge-reranker-v2-m3",
+    )
+    BGE_RERANK_DEVICE: str = _env("bge_rerank_device", "cpu")
+
+
+@dataclass
+class ExtractorConfig:
+    TYPE: str = _env("extractor_type", "multikind_llm")
 
 
 class Config:
-    """全局配置聚合类"""
-    
-    service = ServiceConfig()
-    llm = LLMConfig()
-    es = ESConfig()
-    qdrant = QdrantConfig()
-    embedding = EmbeddingConfig()
-    memory = MemoryConfig()
-    pre_compressor = PreCompressorConfig()
-    whale = WhaleConfig()
-    
+    """全局配置聚合（直接 import config 使用类级属性即可）。"""
+
+    service: ServiceConfig = ServiceConfig()
+    llm: LLMConfig = LLMConfig()
+    qdrant: QdrantConfig = QdrantConfig()
+    milvus: MilvusConfig = MilvusConfig()
+    mysql: MysqlConfig = MysqlConfig()
+    oss: OssConfig = OssConfig()
+    embedding: EmbeddingConfig = EmbeddingConfig()
+    compressor: CompressorConfig = CompressorConfig()
+    retrieval: RetrievalConfig = RetrievalConfig()
+    reranker: RerankerConfig = RerankerConfig()
+    extractor: ExtractorConfig = ExtractorConfig()
+
     @classmethod
-    def reload(cls):
-        """重新加载配置（从环境变量）"""
+    def reload(cls) -> None:
+        load_dotenv(ENV_PATH, override=True)
         cls.service = ServiceConfig()
         cls.llm = LLMConfig()
-        cls.es = ESConfig()
         cls.qdrant = QdrantConfig()
+        cls.milvus = MilvusConfig()
+        cls.mysql = MysqlConfig()
+        cls.oss = OssConfig()
         cls.embedding = EmbeddingConfig()
-        cls.memory = MemoryConfig()
-    
+        cls.compressor = CompressorConfig()
+        cls.retrieval = RetrievalConfig()
+        cls.reranker = RerankerConfig()
+        cls.extractor = ExtractorConfig()
+
     @classmethod
-    def print_config(cls):
-        """打印当前配置（隐藏敏感信息）"""
-        def mask_secret(value: str, show_chars: int = 4) -> str:
-            if not value or len(value) <= show_chars:
+    def describe(cls) -> str:
+        def _mask(value: Optional[str], keep: int = 4) -> str:
+            if not value:
+                return "<empty>"
+            if len(value) <= keep:
                 return "***"
-            return value[:show_chars] + "***"
-        
-        print("=" * 50)
-        print("Current Configuration")
-        print("=" * 50)
-        
-        print("\n[Service]")
-        print(f"  HOST: {cls.service.HOST}")
-        print(f"  PORT: {cls.service.PORT}")
-        print(f"  WORKERS: {cls.service.WORKERS}")
-        print(f"  DEBUG: {cls.service.DEBUG}")
-        
-        print("\n[LLM]")
-        print(f"  API_KEY: {mask_secret(cls.llm.API_KEY)}")
-        print(f"  BASE_URL: {cls.llm.BASE_URL}")
-        print(f"  MODEL: {cls.llm.MODEL}")
-        print(f"  TEMPERATURE: {cls.llm.TEMPERATURE}")
-        print(f"  MAX_TOKENS: {cls.llm.MAX_TOKENS}")
-        
-        print("\n[Elasticsearch]")
-        print(f"  ADDRESS: {cls.es.ADDRESS}")
-        print(f"  USERNAME: {cls.es.USERNAME}")
-        print(f"  PASSWORD: {mask_secret(cls.es.PASSWORD)}")
-        print(f"  MEMORY_INDEX: {cls.es.MEMORY_INDEX}")
+            return value[:keep] + "***"
 
-        print("\n[Qdrant]")
-        print(f"  URL: {cls.qdrant.URL}")
-        print(f"  API_KEY: {mask_secret(cls.qdrant.API_KEY)}")
-        print(f"  COLLECTION: {cls.qdrant.COLLECTION}")
-        print(f"  VECTOR_SIZE: {cls.qdrant.VECTOR_SIZE}")
-        print(f"  DISTANCE: {cls.qdrant.DISTANCE}")
-        
-        print("\n[Embedding]")
-        print(f"  HOST: {cls.embedding.HOST}")
-        print(f"  PORT: {cls.embedding.PORT}")
-        print(f"  MODEL: {cls.embedding.MODEL}")
-        
-        print("\n[Memory]")
-        print(f"  OFFLINE_HOUR_RANGE: {cls.memory.OFFLINE_HOUR_RANGE}")
-        print(f"  SENSORY_BUFFER_SIZE: {cls.memory.SENSORY_BUFFER_SIZE}")
-        print(f"  SHORT_TERM_MAX_SIZE: {cls.memory.SHORT_TERM_MAX_SIZE}")
-        print(f"  SIMILARITY_THRESHOLD: {cls.memory.SIMILARITY_THRESHOLD}")
-        
-        print("=" * 50)
+        return "\n".join(
+            [
+                "=" * 50,
+                "[Service]",
+                f"  HOST={cls.service.HOST} PORT={cls.service.PORT}",
+                "[LLM]",
+                f"  MODEL={cls.llm.MODEL} BASE_URL={cls.llm.BASE_URL} API_KEY={_mask(cls.llm.API_KEY)}",
+                "[Qdrant]",
+                f"  URL={cls.qdrant.URL} COLLECTION={cls.qdrant.COLLECTION} DIM={cls.qdrant.DENSE_DIM}",
+                "[Milvus]",
+                f"  URI={cls.milvus.URI} COLLECTION={cls.milvus.COLLECTION} DIM={cls.milvus.DENSE_DIM}",
+                "[MySQL]",
+                f"  USE_SQLITE={cls.mysql.USE_SQLITE} HOST={cls.mysql.HOST}:{cls.mysql.PORT} DB={cls.mysql.DATABASE}",
+                f"  SQLITE_PATH={cls.mysql.SQLITE_PATH}",
+                "[Embedding]",
+                f"  HOST={cls.embedding.HOST}:{cls.embedding.PORT} MODEL={cls.embedding.MODEL}",
+                "[Compressor]",
+                f"  MODEL_PATH={cls.compressor.MODEL_PATH}",
+                "[OSS]",
+                f"  BUCKET={cls.oss.BUCKET} ENDPOINT={cls.oss.ENDPOINT} PREFIX={cls.oss.PREFIX}",
+                "=" * 50,
+            ]
+        )
 
 
-# 快捷访问
-config = Config()
+config = Config
 
 
 if __name__ == "__main__":
-    Config.print_config()
+    print(Config.describe())

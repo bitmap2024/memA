@@ -1,101 +1,124 @@
 ﻿#!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""
-MemoryService compatibility facade.
-
-The architecture is split into:
-- ExtractMemoryService: offline extract and direct insert.
-- UpdateMemoryService: offline global update/merge.
-- RetrievalMemoryService: online query and read APIs.
-"""
+"""MemoryService：统一的 facade，组合 extract / update / retrieval 三个能力。"""
 
 from __future__ import annotations
 
-from typing import Dict, List
+from typing import Any, Dict, List, Optional
 
-from config.config import Config
-from extract_mem.memory_extract_pipeline import MEMORY_TYPE_MAPPING
-from services.extract_memory_service import ExtractMemoryService
-from services.retrieval_memory_service import RetrievalMemoryService
-from services.update_memory_service import UpdateMemoryService
+from config.setting import Config
+from src.db import MemoryStoreClient, create_memory_store
+from src.db.qdrant import QdrantMemoryStore
+from src.extract_mem.memory_extract_pipeline import MemoryExtractPipeline
+from src.extract_mem.text_compressor import TextCompressor
+from src.extract_mem.topic_segment import TopicSegmenter
+from src.retrieval_mem.hybrid_retrieval import HybridRetrieval
+from src.services.extract_memory_service import ExtractMemoryService
+from src.services.retrieval_memory_service import RetrievalMemoryService
+from src.services.update_memory_service import UpdateMemoryService
+from src.update_mem.category_doc_builder import CategoryDocBuilder
+from src.update_mem.sleep_mode_update import SleepModeUpdater
+from src.embeddings.local.bgem3_text_embedder import BGEM3TextEmbedder
 
+class MemoryService:
+    """共享底层组件、暴露 extract / update / retrieval 入口。"""
 
-class MemoryService(ExtractMemoryService, UpdateMemoryService, RetrievalMemoryService):
-    """Backward-compatible facade for existing legacy callers."""
+    def __init__(self, store: Optional[MemoryStoreClient] = None) -> None:
+        # 共享底层资源（连接 / 客户端）
+        self.embedder = BGEM3TextEmbedder()
+        self.qdrant = QdrantMemoryStore()
+        self.store: MemoryStoreClient = store or create_memory_store()
 
-    memory_type_mapping = MEMORY_TYPE_MAPPING
+        self.compressor = TextCompressor(
+            model_path=Config.compressor.MODEL_PATH,
+            max_tokens=Config.compressor.MAX_TOKENS,
+        )
+        self.segmenter = TopicSegmenter(
+            embedder=self.embedder,
+            token_threshold=Config.retrieval.TOPIC_TOKEN_THRESHOLD,
+            similarity_threshold=Config.retrieval.TOPIC_SIMILARITY_THRESHOLD,
+        )
 
-    def __init__(self, config: Config = None):
-        self.config = config or Config
-        self.extract_service = ExtractMemoryService(config=self.config)
-        self.update_service = UpdateMemoryService(config=self.config)
-        self.retrieval_service = RetrievalMemoryService(config=self.config)
+        self.extract_pipeline = MemoryExtractPipeline(
+            embedder=self.embedder,
+            embedding_db=self.qdrant,
+            relational_db=self.store,
+            compressor=self.compressor,
+            segmenter=self.segmenter,
+        )
+        self.hybrid_retrieval = HybridRetrieval(
+            embedder=self.embedder,
+            qdrant=self.qdrant,
+            store=self.store,
+        )
 
-    def offline_extract_memories(self, *args, **kwargs):
-        return self.extract_service.offline_extract_memories(*args, **kwargs)
+        self.extract_service = ExtractMemoryService(pipeline=self.extract_pipeline)
+        self.update_service = UpdateMemoryService(
+            sleep_updater=SleepModeUpdater(
+                embedder=self.embedder, qdrant=self.qdrant, store=self.store
+            ),
+            doc_builder=CategoryDocBuilder(store=self.store),
+            store=self.store,
+        )
+        self.retrieval_service = RetrievalMemoryService(
+            hybrid=self.hybrid_retrieval, store=self.store
+        )
 
-    def offline_process_memories(self, *args, **kwargs):
-        return self.extract_service.offline_extract_memories(*args, **kwargs)
+    # ------------------------------------------------------------------
+    # extract
+    # ------------------------------------------------------------------
+    def extract_memory(
+        self,
+        user_id: str,
+        conversation: List[Dict[str, str]],
+        conversation_date_time: Optional[str] = None,
+        session_id: Optional[str] = None,
+    ) -> Dict[str, Any]:
+        return self.extract_service.extract_one(
+            user_id=user_id,
+            conversation=conversation,
+            conversation_date_time=conversation_date_time,
+            session_id=session_id,
+        )
 
-    def process_single_user_sync(self, *args, **kwargs):
-        return self.extract_service.process_single_user_sync(*args, **kwargs)
+    # ------------------------------------------------------------------
+    # update
+    # ------------------------------------------------------------------
+    def update_user_memory(
+        self,
+        user_id: str,
+        max_workers: int = 4,
+        enable_merge: bool = True,
+        enable_doc: bool = True,
+    ) -> Dict[str, Any]:
+        return self.update_service.update_user(
+            user_id=user_id,
+            max_workers=max_workers,
+            enable_merge=enable_merge,
+            enable_doc=enable_doc,
+        )
 
-    def _process_single_user(self, *args, **kwargs):
-        return self.extract_service._process_single_user(*args, **kwargs)
-
-    def _get_user_ids(self, *args, **kwargs):
-        return self.extract_service._get_user_ids(*args, **kwargs)
-
-    def _fetch_user_history(self, *args, **kwargs):
-        return self.extract_service._fetch_user_history(*args, **kwargs)
-
-    def _step1_normalize_messages(self, *args, **kwargs):
-        return self.extract_service._step1_normalize_messages(*args, **kwargs)
-
-    def _step2_compress_text(self, *args, **kwargs):
-        return self.extract_service._step2_compress_text(*args, **kwargs)
-
-    def _step3_chunk_messages(self, *args, **kwargs):
-        return self.extract_service._step3_chunk_messages(*args, **kwargs)
-
-    def _step4_extract_memories(self, *args, **kwargs):
-        return self.extract_service._step4_extract_memories(*args, **kwargs)
-
-    def _step5_store_memories(self, *args, **kwargs):
-        return self.extract_service._step5_store_memories(*args, **kwargs)
-
-    def _messages_to_text(self, *args, **kwargs):
-        return self.extract_service._messages_to_text(*args, **kwargs)
-
-    def _parse_memory_response(self, *args, **kwargs):
-        return self.extract_service._parse_memory_response(*args, **kwargs)
-
-    def _generate_memory_id(self, *args, **kwargs):
-        return self.extract_service._generate_memory_id(*args, **kwargs)
-
-    def offline_update_memories(self, *args, **kwargs):
-        return self.update_service.offline_update_memories(*args, **kwargs)
-
-    def get_relate_memory(self, child_id: str, agent_id: str, query: str, top_k: int = 10) -> List[str]:
-        return self.retrieval_service.get_relate_memory(child_id, agent_id, query, top_k)
-
-    def get_memory_with_date_limit(self, *args, **kwargs) -> List[Dict]:
-        return self.retrieval_service.get_memory_with_date_limit(*args, **kwargs)
-
-    def get_all_memory(self, *args, **kwargs) -> List[Dict]:
-        return self.retrieval_service.get_all_memory(*args, **kwargs)
-
-    def memory_format(self, *args, **kwargs) -> List[str]:
-        return self.retrieval_service.memory_format(*args, **kwargs)
-
-    def online_deduplicate_memories(self, *args, **kwargs) -> List[Dict]:
-        return self.retrieval_service.online_deduplicate_memories(*args, **kwargs)
-
-
-def create_memory_service(config: Config = None) -> MemoryService:
-    return MemoryService(config=config)
-
-
-if __name__ == "__main__":
-    service = MemoryService(config=Config)
-    print("MemoryService facade loaded")
+    # ------------------------------------------------------------------
+    # retrieve
+    # ------------------------------------------------------------------
+    def retrieve_memory(
+        self,
+        user_id: str,
+        query: str,
+        top_k: int = 10,
+        memory_type: Optional[str] = None,
+        memory_category: Optional[str] = None,
+        use_bge_rerank: bool = True,
+        use_llm_rerank: bool = False,
+        use_mmr: bool = True,
+    ) -> List[Dict[str, Any]]:
+        return self.retrieval_service.retrieve(
+            user_id=user_id,
+            query=query,
+            top_k=top_k,
+            memory_type=memory_type,
+            memory_category=memory_category,
+            use_bge_rerank=use_bge_rerank,
+            use_llm_rerank=use_llm_rerank,
+            use_mmr=use_mmr,
+        )

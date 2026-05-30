@@ -1,11 +1,77 @@
 from typing import List, Tuple, Dict, Any, Optional
-from llmlingua import PromptCompressor
-import torch
+
+
+def _patch_tiktoken_offline() -> None:
+    """拦截 llmlingua 初始化时对 tiktoken 的联网调用。
+
+    llmlingua 的 PromptCompressor.__init__ 无条件执行
+    `tiktoken.encoding_for_model("gpt-3.5-turbo")`，会去联网下载
+    OpenAI 的 cl100k_base.tiktoken。国内访问
+    openaipublic.blob.core.windows.net 会被重置/超时而报错。
+
+    在 llmlingua2 流程里该 tokenizer 仅用于统计 token 数量
+    （compressed_tokens / ratio / saving 等指标），不影响压缩结果，
+    与本地 BERT 模型自带的分词器无关。这里把它替换成一个不联网的
+    近似计数器，彻底避免下载。
+    """
+    try:
+        import tiktoken  # type: ignore
+    except Exception:
+        return
+
+    class _ApproxEncoding:
+        """不联网的近似编码器，仅提供 token 计数能力。"""
+
+        name = "approx_offline"
+
+        @staticmethod
+        def _tokenize(text: str) -> List[str]:
+            tokens: List[str] = []
+            buf = ""
+            for ch in text:
+                if ch.isspace():
+                    if buf:
+                        tokens.append(buf)
+                        buf = ""
+                elif ord(ch) > 0x2E80 or not ch.isalnum():
+                    if buf:
+                        tokens.append(buf)
+                        buf = ""
+                    tokens.append(ch)
+                else:
+                    buf += ch
+            if buf:
+                tokens.append(buf)
+            return tokens
+
+        def encode(self, text: str, *args, **kwargs) -> List[int]:
+            return list(range(len(self._tokenize(text))))
+
+        def decode(self, tokens, *args, **kwargs) -> str:
+            return ""
+
+    def _offline_encoding_for_model(model_name: str, *args, **kwargs):
+        return _ApproxEncoding()
+
+    tiktoken.encoding_for_model = _offline_encoding_for_model  # type: ignore
+
+
+_patch_tiktoken_offline()
+
+try:
+    from llmlingua import PromptCompressor  # type: ignore
+except Exception:  # pragma: no cover - optional heavy dependency
+    PromptCompressor = None  # type: ignore
+
+try:
+    import torch  # type: ignore
+except Exception:  # pragma: no cover
+    torch = None  # type: ignore
+
 
 class TextCompressor:
     """基于 LLMLingua-2 的文本压缩器"""
     
-    # DEFAULT_MODEL_PATH = "/root/chendong/hf_models/microsoft/llmlingua-2-bert-base-multilingual-cased-meetingbank"
     DEFAULT_FORCE_TOKENS = ['\n', '.', '!', '?', ',', '、']
     DEFAULT_CHUNK_END_TOKENS = ['.', '\n']
     
@@ -17,18 +83,27 @@ class TextCompressor:
             model_path: 模型路径，默认使用 DEFAULT_MODEL_PATH
             max_tokens: 压缩后的最大 token 数，默认 512
         """
-        # self.model_path = model_path or self.DEFAULT_MODEL_PATH
         self.max_tokens = max_tokens
+        if PromptCompressor is None:
+            raise RuntimeError(
+                "llmlingua 未安装，请先 `pip install llmlingua` 或在 .env 中关闭压缩模型路径"
+            )
+        device_map = "cpu"
+        if torch is not None:
+            try:
+                device_map = "cuda:0" if torch.cuda.is_available() else "cpu"
+            except Exception:
+                device_map = "cpu"
         self.compressor = PromptCompressor(
             model_name=model_path,
             use_llmlingua2=True,
-            device_map="cuda:0" if torch.cuda.is_available() else "cpu"
+            device_map=device_map,
         )
     
     def compress(
         self,
         text: str,
-        rate: float = 0.5,
+        rate: float = 0.8,
         force_tokens: Optional[List[str]] = None,
         chunk_end_tokens: Optional[List[str]] = None,
         return_word_label: bool = True,
@@ -61,34 +136,10 @@ class TextCompressor:
         )
         return results
     
-    def get_annotated_results(
-        self,
-        results: Dict[str, Any],
-        word_sep: str = "\t\t|\t\t",
-        label_sep: str = " "
-    ) -> List[Tuple[str, str]]:
-        """
-        从压缩结果中提取标注结果
-        
-        Args:
-            results: compress() 方法返回的结果
-            word_sep: 词之间的分隔符
-            label_sep: 词和标签之间的分隔符
-            
-        Returns:
-            标注结果列表，每个元素为 (word, label) 元组，label 为 '+' 或 '-'
-        """
-        lines = results["fn_labeled_original_prompt"].split(word_sep)
-        annotated_results = []
-        for line in lines:
-            word, label = line.split(label_sep)
-            annotated_results.append((word, '+') if label == '1' else (word, '-'))
-        return annotated_results
-    
     def compress_and_annotate(
         self,
-        messages: List[Dict[str, str]],
-        rate: float = 0.5,
+        text: str,
+        rate: float = 0.8,
         **kwargs
     ) -> Tuple[Dict[str, Any], List[Tuple[str, str]]]:
         """
@@ -102,36 +153,14 @@ class TextCompressor:
         Returns:
             (压缩结果字典, 标注结果列表)
         """
-        for mes in messages:
-            content = mes["content"]
-            if not content or not content.strip():
-                continue
-            
-            results = self.compress(content, rate=rate, **kwargs)
-            # print(f"results: {results}")
-            while results["compressed_tokens"] > self.max_tokens:
-                content = results["compressed_prompt"]
-                results = self.compress(content, rate=rate, **kwargs)
-            mes["content"] = results["compressed_prompt"]
-        return messages
-
+        if not text or not text.strip():
+            return None, []
+        results = self.compress(text, rate=rate, **kwargs)
+        return results
 
 if __name__ == "__main__":
-    # 使用示例
-    import json
-    compressor = TextCompressor(model_path="/root/chendong/hf_models/microsoft/llmlingua-2-bert-base-multilingual-cased-meetingbank")
-    turn_messages = [
-        {"role": "user", "content": "咱们先把这些航班订好吧！接下来，您能否推荐一些坦帕的住宿，位置便利，方便游览景点，并且符合我单人入住的预算？", "time_stamp": "2022-03-20 13:21:00", "speaker_name": "User", "speaker_id": "speaker_a"},
-        {"role": "assistant", "content": "绝佳选择！对于单人入住且注重便利性的人来说，坦帕市中心是理想之选。我推荐以下房源：\n- 位于纽约市的宽敞一卧公寓（整套公寓，每晚 547 美元，至少入住一晚，评分 5.0）\n- 主要信息：靠近河滨步道（步行即可到达众多景点），禁止吸烟/举办派对，可容纳两人（空间充足）——两晚总价：1,094 美元。\n这样，您的剩余预算为 1,800 美元 - 360 美元（机票）- 1,094 美元（住宿）= 346 美元，可用于餐饮、景点和当地交通。这个住宿方案符合您的需求吗？", "time_stamp": "2022-03-20 13:21:00", "speaker_name": "Assistant", "speaker_id": "speaker_b"}
-    ]
-    print(json.dumps(turn_messages, indent=4, ensure_ascii=False))
-    turn_messages = compressor.compress_and_annotate(turn_messages, rate=0.5)
-
-    print(f"Compressed turn_messages: {turn_messages}")
-    print(json.dumps(turn_messages, indent=4, ensure_ascii=False))
-        
-# [{'role': 'user', 'content': 'Let’s lock in these flights! Next, could you recommend accommodations in Tampa that are convenient for attractions, and fit my single occupancy budget?', 'time_stamp': '2022-03-20 13:21:00', 'speaker_name': 'User', 'speaker_id': 'speaker_a'}, {'role': 'assistant', 'content': 'Great choice! For single occupancy and convenience, Tampa’s downtown area is ideal. I recommend:\n- Spacious 1+ bedroom apt which was located in NYC (Entire home/apt, $547/night, 1-night minimum, 5.0 review rate)\n- Key details: Near the Riverwalk (walkable to many attractions), no smoking/parties, fits 2 people (plenty of space for you) – total for 2 nights: $1,094.\nThis keeps your remaining budget at $1,800 - $360 (flights) - $1,094 (accommodations) = $346 for meals, attractions, and local transport. Does this accommodation work for you?', 'time_stamp': '2022-03-20 13:21:00', 'speaker_name': 'Assistant', 'speaker_id': 'speaker_b'}]
-
-# [{'role': 'user', 'content': 'One last question: Is there a place to rent a bike near the Riverwalk for Day 1’s stroll?', 'time_stamp': '2022-03-20 13:21:00', 'speaker_name': 'User', 'speaker_id': 'speaker_a'}, {'role': 'assistant', 'content': 'Yes! Tampa Bay Bike Share has a station at 100 N Ashley Dr – 5-minute walk from your apartment (Riverwalk-near). Details:\n- $15/day pass, unlimited 30-minute rides\n- Booking link: [Tampa Bay Bike Share](https://tampabaybikeshare.org/)\n\nLast tips: The Florida Aquarium gets busy on weekends (arrive by 10 AM), and your apartment has a kitchenette (stock up on water at Publix to save). Enjoy your trip – let me know if you need last-minute tweaks!', 'time_stamp': '2022-03-20 13:21:00', 'speaker_name': 'Assistant', 'speaker_id': 'speaker_b'}]
-
-
+    compressor = TextCompressor(model_path="d:/aiworks/premodel/llmlingua-2-bert-base-multilingual-cased-meetingbank")
+    text = "咱们先把这些航班订好吧！接下来，您能否推荐一些坦帕的住宿，位置便利，方便游览景点，并且符合我单人入住的预算？"
+    results = compressor.compress(text, rate=0.5)
+    print("results:", results)
+    print("-"*100)

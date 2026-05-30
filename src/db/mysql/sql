@@ -1,0 +1,93 @@
+-- ============================================================
+-- 记忆三层关系存储 DDL
+--   第一层 conversations : 原始/压缩对话
+--   第二层 topics        : 主题
+--   第三层 memories       : 记忆
+-- ============================================================
+
+CREATE TABLE IF NOT EXISTS conversations (
+
+    conversation_id VARCHAR(64) PRIMARY KEY, -- 项目维护的唯一 id（雪花算法）
+
+    raw_conversation_id VARCHAR(64) NOT NULL, -- 来源于用户传入的原始对话 id
+
+    user_id VARCHAR(64) NOT NULL, -- 来源于用户传入的用户 id
+
+    conversation_data JSON NOT NULL, -- 原始对话数据
+
+    conversation_compressed_data JSON NOT NULL, -- 压缩后的对话数据
+
+    conversation_date_time DATETIME(3) NOT NULL, -- 原始对话时间
+
+    created_at DATETIME(3) NOT NULL, -- 入库时间
+
+    INDEX idx_conversations_user_id (user_id),
+    INDEX idx_conversations_raw_id (raw_conversation_id),
+    INDEX idx_conversations_created_at (created_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+CREATE TABLE IF NOT EXISTS topics (
+
+    topic_id VARCHAR(64) PRIMARY KEY, -- 项目维护的唯一 id（雪花算法）
+
+    topic_idx INT NOT NULL DEFAULT 0, -- 主题在所属会话中的索引
+
+    topic_context TEXT NOT NULL, -- 主题内容（LLM 概括）
+
+    topic_messages JSON NULL, -- 主题分段内带 [n] 索引的原文消息，index 对应 memories.source_topic_cites 的编号
+
+    status VARCHAR(32) NOT NULL DEFAULT 'active', -- 生命周期 active / archived / conflicted / outdated / deleted
+
+    source_conversation_ids JSON NOT NULL, -- 关联的 conversation_id 列表，合并后可能多个
+
+    derived_from_topic_ids JSON NULL, -- 由哪些旧 topic 合并生成
+
+    derived_topic_count INT NOT NULL DEFAULT 0, -- 合并次数
+
+    created_at DATETIME(3) NOT NULL, -- 入库时间
+
+    INDEX idx_topics_status (status),
+    INDEX idx_topics_created_at (created_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+CREATE TABLE IF NOT EXISTS memories (
+
+    memory_id VARCHAR(64) PRIMARY KEY, -- 项目维护的唯一 id（雪花算法）
+
+    user_id VARCHAR(64) NOT NULL, -- 用户 id
+
+    memory_content TEXT NOT NULL, -- 记忆内容
+
+    memory_type VARCHAR(64) NOT NULL, -- profile / episodic / state / core
+
+    memory_category VARCHAR(64) NOT NULL, -- fact / preference / ... 等子类
+
+    status VARCHAR(32) NOT NULL DEFAULT 'active', -- 生命周期 active / archived / conflicted / outdated / deleted
+
+    created_at DATETIME(3) NOT NULL, -- 创建时间
+
+    importance FLOAT NOT NULL DEFAULT 0, -- 重要性
+
+    confidence FLOAT NOT NULL DEFAULT 0, -- 重要性置信度
+
+    retrieval_count INT NOT NULL DEFAULT 0, -- 检索次数
+
+    last_retrieved_at DATETIME(3) NULL, -- 最后一次被检索的时间
+
+    source_topic_ids JSON NULL, -- 关联的 topic_id 列表，合并后可能多个
+
+    source_topic_cites JSON NULL, -- topic_id -> message indices，对应 `[n]` 编号
+
+    derived_from_memory_ids JSON NULL, -- 由哪些旧 memory 合并生成
+
+    derived_memory_count INT NOT NULL DEFAULT 0, -- 合并次数
+
+    metadata JSON NULL, -- 额外元数据
+
+    INDEX idx_memories_user_status (user_id, status),
+    INDEX idx_memories_user_type (user_id, memory_type),
+    INDEX idx_memories_user_category (user_id, memory_category),
+    INDEX idx_memories_created_at (created_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
